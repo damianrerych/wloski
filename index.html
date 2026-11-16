@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mój Włoski</title>
+<meta name="theme-color" content="#FBF6EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141A1B" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Włoski">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<style>:root{
+  --bg:#FBF6EE; --card:#FFFFFF; --ink:#1E2A2C; --muted:#6E7a7a; --line:#ECE3D6;
+  --accent:#C8553D; --accent-soft:#F6DED6; --green:#2F7A55; --green-soft:#DCEFE3;
+  --gold:#D9962B; --gold-soft:#FAEBCF; --red:#C0392B; --red-soft:#F8DCD8; --blue:#2E6F9E; --blue-soft:#DCEAF5;
+  --r:18px; --shadow:0 1px 2px rgba(30,42,44,.06),0 4px 16px rgba(30,42,44,.06);
+  --serif: ui-serif, "New York", Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#141A1B; --card:#1E2627; --ink:#F1ECE4; --muted:#9AA6A5; --line:#2C3637;
+    --accent:#E2735A; --accent-soft:#3A2420; --green:#5BBF8A; --green-soft:#1D3328; --gold:#E9B35A; --gold-soft:#3A2F1C;
+    --red:#E9695B; --red-soft:#3D2220; --blue:#6FA9D6; --blue-soft:#1C2C39; --shadow:none; }
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.4}
+body{min-height:100dvh;-webkit-text-size-adjust:100%}
+button,input,textarea,select{font:inherit;color:inherit}
+#app{max-width:560px;margin:0 auto;padding:calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 96px)}
+h1,h2,h3{font-family:var(--serif);font-weight:700;margin:0}
+h1{font-size:30px;letter-spacing:-.01em}
+h2{font-size:22px;margin:22px 0 10px}
+h3{font-size:18px}
+p{margin:6px 0}
+.muted{color:var(--muted)} .small{font-size:14px} .tiny{font-size:12px}
+.row{display:flex;gap:10px;align-items:center} .between{justify-content:space-between} .wrap{flex-wrap:wrap}
+.grow{flex:1} .center{text-align:center}
+.card{background:var(--card);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);border:1px solid var(--line);margin:12px 0}
+.btn{appearance:none;border:0;border-radius:14px;padding:14px 18px;font-weight:600;background:var(--line);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.green{background:var(--green);color:#fff}
+.btn.ghost{background:transparent;border:1.5px solid var(--line)}
+.btn.block{width:100%}
+.btn.sm{min-height:36px;padding:8px 12px;font-size:15px;border-radius:11px}
+.btn[disabled]{opacity:.45}
+.icon-btn{appearance:none;border:0;background:var(--line);width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;flex:none}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;background:var(--line);font-size:13px;font-weight:600}
+.chip.green{background:var(--green-soft);color:var(--green)} .chip.gold{background:var(--gold-soft);color:var(--gold)}
+.chip.red{background:var(--red-soft);color:var(--red)} .chip.blue{background:var(--blue-soft);color:var(--blue)}
+.chip.accent{background:var(--accent-soft);color:var(--accent)}
+input[type=text],input[type=number],input[type=time],textarea,select{width:100%;border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:13px 14px;outline:none}
+input:focus,textarea:focus{border-color:var(--accent)}
+textarea{min-height:120px;resize:vertical;font-size:15px}
+label.lbl{display:block;font-size:14px;color:var(--muted);margin:12px 0 6px;font-weight:600}
+
+/* Tab bar */
+.tabbar{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom);z-index:20}
+.tabbar .in{display:flex;max-width:560px;width:100%}
+.tabbar button{flex:1;appearance:none;border:0;background:none;padding:9px 0 7px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--muted);cursor:pointer}
+.tabbar button .i{font-size:22px;line-height:1;filter:grayscale(1);opacity:.75}
+.tabbar button.on{color:var(--accent)} .tabbar button.on .i{filter:none;opacity:1}
+
+/* Home */
+.hero{display:flex;gap:16px;align-items:center}
+.ring{width:108px;height:108px;flex:none;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring .lab{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .lab b{font-size:26px;font-family:var(--serif)}
+.stats3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.stat b{display:block;font-size:22px;font-family:var(--serif)}
+.stat span{font-size:12px;color:var(--muted);font-weight:600}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quick button{appearance:none;border:1px solid var(--line);background:var(--card);border-radius:16px;padding:14px;text-align:left;cursor:pointer;box-shadow:var(--shadow)}
+.quick button b{display:block;font-size:16px;margin-top:4px}
+.quick button span{font-size:13px;color:var(--muted)}
+.phrase{background:linear-gradient(135deg,var(--accent),#A8432F);color:#fff;border:0}
+.phrase .it{font-family:var(--serif);font-size:21px;margin:6px 0}
+
+/* Session */
+.sess-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;flex:1}
+.bar i{display:block;height:100%;background:var(--green);border-radius:99px;transition:width .4s}
+.ex{min-height:58vh;display:flex;flex-direction:column}
+.ex .kind{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.prompt{font-family:var(--serif);font-size:30px;line-height:1.2;margin:14px 0 6px;word-break:break-word}
+.prompt.md{font-size:24px}
+.sub{color:var(--muted);font-size:16px}
+.reveal{margin-top:16px;padding:14px;border-radius:14px;background:var(--bg);border:1px dashed var(--line)}
+.opts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.opt{appearance:none;text-align:left;border:1.5px solid var(--line);background:var(--card);border-radius:14px;padding:14px 16px;font-size:18px;cursor:pointer}
+.opt.ok{border-color:var(--green);background:var(--green-soft)} .opt.bad{border-color:var(--red);background:var(--red-soft)}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:auto;padding-top:16px}
+.grades button{appearance:none;border:0;border-radius:12px;padding:10px 4px;font-weight:700;font-size:14px;cursor:pointer;line-height:1.15}
+.grades button small{display:block;font-weight:500;font-size:11px;opacity:.8}
+.g0{background:var(--red-soft);color:var(--red)} .g1{background:var(--gold-soft);color:var(--gold)}
+.g2{background:var(--green-soft);color:var(--green)} .g3{background:var(--blue-soft);color:var(--blue)}
+.answer{display:flex;gap:8px;margin-top:16px}
+.answer input{font-size:19px}
+.mic{width:56px;height:56px;border-radius:50%;border:0;background:var(--accent);color:#fff;font-size:24px;flex:none;cursor:pointer}
+.mic.live{animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(200,85,61,.5)}70%{box-shadow:0 0 0 16px rgba(200,85,61,0)}100%{box-shadow:0 0 0 0 rgba(200,85,61,0)}}
+.fb{margin-top:16px;padding:14px 16px;border-radius:14px}
+.fb.ok{background:var(--green-soft)} .fb.bad{background:var(--red-soft)} .fb.mid{background:var(--gold-soft)}
+.fb b.t{display:block;font-size:18px;margin-bottom:4px}
+.w-ok{color:var(--green);font-weight:700} .w-bad{color:var(--red);font-weight:700;text-decoration:underline wavy}
+.score{font-family:var(--serif);font-size:34px;font-weight:700}
+.footer-actions{margin-top:auto;padding-top:18px;display:flex;flex-direction:column;gap:10px}
+.tools{display:flex;gap:8px;justify-content:space-between;margin-top:14px}
+.linkbtn{appearance:none;border:0;background:none;color:var(--muted);font-size:14px;font-weight:600;padding:6px 0;cursor:pointer}
+.clock{display:block;margin:6px auto}
+.hint{font-size:13px;color:var(--muted);margin-top:8px}
+
+/* Library */
+.topic{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.topic:last-child{border-bottom:0}
+.topic .em{font-size:26px;width:40px;text-align:center}
+.prog{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:6px;display:flex}
+.prog i{display:block;height:100%}
+.list-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.list-item:last-child{border-bottom:0}
+.notes h2{font-size:18px;margin:12px 0 6px} .notes ul{padding-left:20px;margin:6px 0} .notes li{margin:3px 0}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.thumbs img,.thumbs .pdf{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:var(--line);display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer}
+.seg{display:flex;background:var(--line);border-radius:12px;padding:3px;gap:3px}
+.seg button{flex:1;appearance:none;border:0;background:none;border-radius:9px;padding:8px;font-weight:600;font-size:14px;cursor:pointer}
+.seg button.on{background:var(--card);box-shadow:var(--shadow)}
+.toggle{position:relative;width:51px;height:31px;flex:none}
+.toggle input{opacity:0;width:0;height:0}
+.toggle span{position:absolute;inset:0;background:var(--line);border-radius:99px;transition:.2s;cursor:pointer}
+.toggle span:before{content:"";position:absolute;width:27px;height:27px;left:2px;top:2px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle input:checked+span{background:var(--green)} .toggle input:checked+span:before{transform:translateX(20px)}
+
+/* Stats */
+.bars{display:flex;align-items:flex-end;gap:5px;height:120px;padding-top:8px}
+.bars .b{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end}
+.bars .b i{display:block;width:100%;background:var(--accent);border-radius:6px 6px 2px 2px;min-height:2px}
+.bars .b i.goal{background:var(--green)}
+.bars .b span{font-size:10px;color:var(--muted)}
+.kv{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)} .kv:last-child{border-bottom:0}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.modal .sheet{background:var(--bg);width:100%;max-width:560px;max-height:92dvh;overflow:auto;border-radius:22px 22px 0 0;padding:18px 16px calc(env(safe-area-inset-bottom) + 18px)}
+.modal img{max-width:100%;border-radius:12px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 84px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:15px;z-index:60;max-width:90%}
+.empty{padding:28px 10px;text-align:center;color:var(--muted)}
+code,.code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--line);padding:2px 5px;border-radius:6px}
+pre.code{white-space:pre-wrap;padding:10px;display:block;max-height:220px;overflow:auto}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav class="tabbar" id="tabbar"><div class="in">
+  <button data-t="home"><span class="i">🏠</span>Dziś</button>
+  <button data-t="library"><span class="i">📚</span>Biblioteka</button>
+  <button data-t="add"><span class="i">➕</span>Dodaj</button>
+  <button data-t="stats"><span class="i">📈</span>Postępy</button>
+</div></nav>
+<script>// Wbudowany pakiet startowy A0 — z Twoich PDF-ów (Essere/Avere, Numeri, Orari, załącznik nr 1)
+// oraz z rozdziałów 1–5 podręcznika "Facile Facile A0".
+// Typy kart: w = słówko, c = luka, ch = wybór, qa = pytanie do mówienia, say = powtórz na głos
+const W = (pairs) => pairs.map(([it, pl]) => ({ type: 'w', it, pl }));
+
+const BUILTIN_PACK = {
+  pack: 'start-a0',
+  version: 1,
+  title: 'Start A0',
+  topics: [
+    {
+      id: 'saluti', name: 'Powitania i przedstawianie się', emoji: '👋', lesson: 'Facile Facile · Unità 1',
+      notes: `## Saluti
+- **ciao** – cześć (na powitanie i pożegnanie, nieformalnie)
+- **buongiorno** – rano i w dzień · **buonasera** – od popołudnia
+- **scusi** (formalnie, do Pan/Pani) · **scusa** (do Ty)
+- **Mi chiamo…** = Nazywam się… · **Io sono…** = Ja jestem…`,
+      cards: W([
+        ['ciao', 'cześć'], ['buongiorno', 'dzień dobry'], ['buonasera', 'dobry wieczór'],
+        ['buonanotte', 'dobranoc'], ['arrivederci', 'do widzenia'], ['a presto', 'do zobaczenia wkrótce'],
+        ['a domani', 'do jutra'], ['grazie', 'dziękuję'], ['grazie mille', 'bardzo dziękuję'],
+        ['prego', 'proszę (w odpowiedzi na dziękuję)'], ['per favore', 'proszę (prośba)'],
+        ['scusi', 'przepraszam (formalnie)'], ['scusa', 'przepraszam (do kolegi)'],
+        ['sì', 'tak'], ['no', 'nie'], ['come stai?', 'jak się masz?'], ['sto bene', 'mam się dobrze'],
+        ['come ti chiami?', 'jak masz na imię?'], ['mi chiamo Damian', 'nazywam się Damian'],
+        ['piacere', 'miło mi'], ['lo studente', 'student'], ['la studentessa', 'studentka'],
+        ['l\'insegnante', 'nauczyciel / nauczycielka'],
+      ]).concat([
+        { type: 'say', it: 'Buongiorno, mi chiamo Damian. Piacere!', pl: 'Dzień dobry, nazywam się Damian. Miło mi!' },
+        { type: 'say', it: 'Ciao, come stai? Sto bene, grazie.', pl: 'Cześć, jak się masz? Dobrze, dziękuję.' },
+        { type: 'c', c: 'Ciao, come ___ chiami?', a: 'ti', pl: 'Cześć, jak masz na imię?' },
+        { type: 'c', c: 'Buongiorno, io ___ Luca.', a: 'sono', pl: 'Dzień dobry, jestem Luca.', h: 'essere' },
+      ]),
+    },
+    {
+      id: 'fonetica', name: 'Wymowa: C, G, GLI, GN, SC', emoji: '👄', lesson: 'Facile Facile · Fonetica',
+      notes: `## Twarde i miękkie
+- **C + e/i** = „cz”: ciao, cena, cinema · **C + a/o/u** = „k”: casa, come, cucina
+- **CH + e/i** = „k”: che, chi, chiesa
+- **G + e/i** = „dż”: gelato, giorno · **G + a/o/u** = „g”: gatto · **GH** = „g”: spaghetti
+- **GLI** ≈ „li” (miękkie): famiglia, figlio · **GN** ≈ „ń”: bagno, signora
+- **SC + e/i** = „sz”: pesce, sci · **SC + a/o/u** = „sk”: scuola · **SCH** = „sk”: schiena`,
+      cards: [
+        ['ciao', 'cześć'], ['cena', 'kolacja'], ['cinema', 'kino'], ['casa', 'dom'], ['chiesa', 'kościół'],
+        ['che cosa?', 'co?'], ['cucina', 'kuchnia'], ['gelato', 'lody'], ['giorno', 'dzień'], ['gatto', 'kot'],
+        ['spaghetti', 'spaghetti'], ['ghiaccio', 'lód'], ['famiglia', 'rodzina'], ['figlio', 'syn'],
+        ['bagno', 'łazienka'], ['signora', 'pani'], ['pesce', 'ryba'], ['scuola', 'szkoła'], ['sci', 'narty'],
+        ['schiena', 'plecy'], ['lasagne', 'lasagne'], ['gnocchi', 'gnocchi'],
+      ].map(([it, pl]) => ({ type: 'say', it, pl })),
+    },
+    {
+      id: 'numeri', name: 'Liczby', emoji: '🔢', lesson: 'Numeri.pdf · Unità 1–3',
+      notes: `## Jak budować liczby
+- dziesiątka + jedności: 20 + 5 = **venticinque**, 40 + 7 = **quarantasette**
+- przed **uno** i **otto** dziesiątka traci samogłoskę: **ventuno** (21), **trentotto** (38), **sessantuno** (61)
+- 3 na końcu ma akcent: **ventitré**, trentatré
+- setki: **cento**, duecento, trecento… (cento się nie zmienia!) → 154 = centocinquantaquattro
+- tysiące: **mille**, ale 2000 = **duemila** (mille → **mila**)
+- 1 000 000 = un milione · 2 000 000 = due milioni
+- **uno** zmienia formę w rodzaju żeńskim: **una** casa
+## Liczebniki porządkowe
+primo, secondo, terzo, quarto, quinto, sesto, settimo, ottavo, nono, decimo, potem -**esimo**: undicesimo, dodicesimo…`,
+      cards: W([
+        ['zero', '0'], ['uno', '1'], ['due', '2'], ['tre', '3'], ['quattro', '4'], ['cinque', '5'], ['sei', '6'],
+        ['sette', '7'], ['otto', '8'], ['nove', '9'], ['dieci', '10'], ['undici', '11'], ['dodici', '12'],
+        ['tredici', '13'], ['quattordici', '14'], ['quindici', '15'], ['sedici', '16'], ['diciassette', '17'],
+        ['diciotto', '18'], ['diciannove', '19'], ['venti', '20'], ['ventuno', '21'], ['ventotto', '28'],
+        ['trenta', '30'], ['quaranta', '40'], ['cinquanta', '50'], ['sessanta', '60'], ['settanta', '70'],
+        ['ottanta', '80'], ['novanta', '90'], ['cento', '100'], ['mille', '1000'], ['duemila', '2000'],
+        ['un milione', '1 000 000'], ['primo', 'pierwszy'], ['secondo', 'drugi'], ['terzo', 'trzeci'],
+        ['quarto', 'czwarty'], ['quinto', 'piąty'], ['decimo', 'dziesiąty'],
+      ]).concat([
+        { type: 'ch', q: 'Która liczba zmienia formę w rodzaju żeńskim?', o: ['due', 'tre', 'uno', 'cinque'], a: 2 },
+        { type: 'ch', q: 'Jak poprawnie zapisać 17?', o: ['diciassette', 'diecisette', 'dici-sette', 'dieci-sette'], a: 0 },
+        { type: 'ch', q: 'Jak poprawnie powiedzieć godzinę 13:00?', o: ['tredici', 'le tredici', 'tredici ore', 'il tredici'], a: 1 },
+        { type: 'ch', q: 'Który liczebnik porządkowy ma nieregularną formę?', o: ['quinto', 'settimo', 'primo', 'nono'], a: 2 },
+        { type: 'ch', q: 'W którym wyrażeniu „mille” zmienia się w „mila”?', o: ['mille euro', 'duemila', 'il mille', 'mille grazie'], a: 1 },
+        { type: 'ch', q: '„Cento” przyjmuje liczbę mnogą, gdy stoją przed nim inne liczby (np. duecenti).', o: ['prawda', 'fałsz'], a: 1 },
+        { type: 'c', c: '88 = ___', a: 'ottantotto', pl: 'Napisz słownie 88' },
+        { type: 'c', c: '38 = ___', a: 'trentotto', pl: 'Napisz słownie 38' },
+        { type: 'c', c: '61 = ___', a: 'sessantuno', pl: 'Napisz słownie 61' },
+        { type: 'c', c: '325 = ___', a: 'trecentoventicinque', pl: 'Napisz słownie 325' },
+      ]),
+    },
+    {
+      id: 'tempo', name: 'Dni tygodnia i miesiące', emoji: '📅', lesson: 'Facile Facile · Unità 1 i 3',
+      notes: `## Giorni della settimana
+lunedì, martedì, mercoledì, giovedì, venerdì, sabato, domenica — piszemy małą literą!
+- **oggi** dziś · **ieri** wczoraj · **domani** jutro
+## Mesi
+gennaio, febbraio, marzo, aprile, maggio, giugno, luglio, agosto, settembre, ottobre, novembre, dicembre`,
+      cards: W([
+        ['lunedì', 'poniedziałek'], ['martedì', 'wtorek'], ['mercoledì', 'środa'], ['giovedì', 'czwartek'],
+        ['venerdì', 'piątek'], ['sabato', 'sobota'], ['domenica', 'niedziela'], ['oggi', 'dzisiaj'],
+        ['ieri', 'wczoraj'], ['domani', 'jutro'], ['la settimana', 'tydzień'], ['il mese', 'miesiąc'],
+        ['l\'anno', 'rok'], ['gennaio', 'styczeń'], ['febbraio', 'luty'], ['marzo', 'marzec'], ['aprile', 'kwiecień'],
+        ['maggio', 'maj'], ['giugno', 'czerwiec'], ['luglio', 'lipiec'], ['agosto', 'sierpień'],
+        ['settembre', 'wrzesień'], ['ottobre', 'październik'], ['novembre', 'listopad'], ['dicembre', 'grudzień'],
+      ]).concat([
+        { type: 'c', c: 'Oggi è lunedì, domani è ___.', a: 'martedì', pl: 'Dziś jest poniedziałek, jutro jest wtorek.' },
+        { type: 'c', c: 'Ieri era sabato, oggi è ___.', a: 'domenica', pl: 'Wczoraj była sobota, dziś jest niedziela.' },
+        { type: 'say', it: 'Oggi è lunedì, domani è martedì.', pl: 'Dziś jest poniedziałek, jutro wtorek.' },
+      ]),
+    },
+    {
+      id: 'nazionalita', name: 'Skąd jesteś? Narodowości', emoji: '🌍', lesson: 'Facile Facile · Unità 2',
+      notes: `## Di dove sei?
+- **Di dove sei?** – Skąd jesteś? · **Sono polacco / polacca.** · **Sono di Varsavia.**
+- przymiotniki na **-o**: polacco / polacca, italiano / italiana
+- przymiotniki na **-e**: francese, inglese, cinese — tak samo dla obu rodzajów
+- **non** przed czasownikiem: Non sono italiano.`,
+      cards: W([
+        ['di dove sei?', 'skąd jesteś?'], ['sono polacco', 'jestem Polakiem'], ['polacca', 'Polka'],
+        ['la Polonia', 'Polska'], ['l\'Italia', 'Włochy'], ['italiano / italiana', 'Włoch / Włoszka (włoski)'],
+        ['la Germania', 'Niemcy'], ['tedesco / tedesca', 'Niemiec / Niemka'], ['la Francia', 'Francja'],
+        ['francese', 'Francuz / Francuzka'], ['l\'Inghilterra', 'Anglia'], ['inglese', 'Anglik / angielski'],
+        ['la Spagna', 'Hiszpania'], ['spagnolo / spagnola', 'Hiszpan / Hiszpanka'], ['americano', 'Amerykanin'],
+        ['cinese', 'Chińczyk / chiński'], ['svizzero', 'Szwajcar'], ['straniero', 'obcokrajowiec'],
+        ['l\'Europa', 'Europa'], ['l\'Asia', 'Azja'], ['l\'Africa', 'Afryka'],
+      ]).concat([
+        { type: 'c', c: 'Mary è ___, di Boston.', a: 'americana', pl: 'Mary jest Amerykanką, z Bostonu.', h: 'americano → rodzaj żeński' },
+        { type: 'c', c: 'Io ___ sono italiano, sono polacco.', a: 'non', pl: 'Nie jestem Włochem, jestem Polakiem.' },
+        { type: 'c', c: 'Anna è ___, di Cracovia.', a: 'polacca', pl: 'Anna jest Polką, z Krakowa.', h: 'polacco → rodzaj żeński' },
+        { type: 'say', it: 'Sono polacco, ma lavoro con colleghi italiani.', pl: 'Jestem Polakiem, ale pracuję z włoskimi kolegami.' },
+      ]),
+    },
+    {
+      id: 'essere', name: 'Czasownik ESSERE (być)', emoji: '🟣', lesson: 'Essere_Avere.pdf · załącznik nr 1',
+      notes: `## ESSERE – być
+- io **sono** · tu **sei** · lui/lei **è**
+- noi **siamo** · voi **siete** · loro **sono**
+- przeczenie: io **non** sono…
+- uwaga: **è** (jest) ≠ **e** (i)`,
+      cards: W([
+        ['io sono', 'ja jestem'], ['tu sei', 'ty jesteś'], ['lui è', 'on jest'], ['lei è', 'ona jest'],
+        ['noi siamo', 'my jesteśmy'], ['voi siete', 'wy jesteście'], ['loro sono', 'oni są'], ['io non sono', 'ja nie jestem'],
+      ]).concat([
+        { type: 'c', c: 'Io ___ a Bologna per studiare italiano.', a: 'sono', pl: 'Jestem w Bolonii, żeby uczyć się włoskiego.', h: 'essere' },
+        { type: 'c', c: 'Voi ___ stranieri.', a: 'siete', pl: 'Wy jesteście obcokrajowcami.', h: 'essere' },
+        { type: 'c', c: 'Noi ___ in classe adesso.', a: 'siamo', pl: 'Jesteśmy teraz w klasie.', h: 'essere' },
+        { type: 'c', c: 'Marco e Sara ___ a Milano.', a: 'sono', pl: 'Marco i Sara są w Mediolanie.', h: 'essere' },
+        { type: 'c', c: 'Carlo, di dove ___?', a: 'sei', pl: 'Carlo, skąd jesteś?', h: 'essere' },
+        { type: 'c', c: 'Mary ___ americana, di Boston.', a: 'è', pl: 'Mary jest Amerykanką, z Bostonu.', h: 'essere' },
+        { type: 'c', c: 'Voi ___ inglesi?', a: 'siete', pl: 'Jesteście Anglikami?', h: 'essere' },
+        { type: 'c', c: 'I ragazzi ___ francesi.', a: 'sono', pl: 'Chłopcy są Francuzami.', h: 'essere' },
+        { type: 'c', c: 'Tu ___ cinese?', a: 'sei', pl: 'Jesteś Chińczykiem?', h: 'essere' },
+        { type: 'c', c: 'Io e Maria ___ italiane.', a: 'siamo', pl: 'Ja i Maria jesteśmy Włoszkami.', h: 'essere' },
+      ]),
+    },
+    {
+      id: 'avere', name: 'Czasownik AVERE (mieć)', emoji: '🟠', lesson: 'Essere_Avere.pdf · załącznik nr 1 · Unità 3–4',
+      notes: `## AVERE – mieć (h jest nieme!)
+- io **ho** · tu **hai** · lui/lei **ha**
+- noi **abbiamo** · voi **avete** · loro **hanno**
+## Wyrażenia z AVERE (po polsku często „być”)
+- **avere fame** – być głodnym · **avere sete** – chcieć pić · **avere sonno** – być śpiącym
+- **avere freddo / caldo** – marznąć / być gorąco
+- **avere 35 anni** – mieć 35 lat (wiek zawsze z avere!)
+- **avere bisogno di** – potrzebować · **avere voglia di** – mieć ochotę na`,
+      cards: W([
+        ['io ho', 'ja mam'], ['tu hai', 'ty masz'], ['lui / lei ha', 'on / ona ma'], ['noi abbiamo', 'my mamy'],
+        ['voi avete', 'wy macie'], ['loro hanno', 'oni mają'], ['non ho', 'nie mam'],
+        ['avere fame', 'być głodnym'], ['avere sete', 'chcieć pić'], ['avere sonno', 'być śpiącym'],
+        ['avere freddo', 'marznąć'], ['avere caldo', 'mieć gorąco'], ['quanti anni hai?', 'ile masz lat?'],
+        ['ho bisogno di…', 'potrzebuję…'], ['ho voglia di…', 'mam ochotę na…'], ['il tempo', 'czas'],
+      ]).concat([
+        { type: 'c', c: 'Tu ___ una bicicletta?', a: 'hai', pl: 'Masz rower?', h: 'avere' },
+        { type: 'c', c: 'Voi ___ fame?', a: 'avete', pl: 'Jesteście głodni?', h: 'avere' },
+        { type: 'c', c: 'Quanti anni ___ Francesco?', a: 'ha', pl: 'Ile lat ma Francesco?', h: 'avere' },
+        { type: 'c', c: 'Tu e Sara ___ sonno?', a: 'avete', pl: 'Ty i Sara jesteście śpiący?', h: 'avere' },
+        { type: 'c', c: 'Gli studenti ___ un computer a casa?', a: 'hanno', pl: 'Studenci mają komputer w domu?', h: 'avere' },
+        { type: 'c', c: 'Il bambino ___ fame e sonno.', a: 'ha', pl: 'Dziecko jest głodne i śpiące.', h: 'avere' },
+        { type: 'c', c: 'Tu ___ sete?', a: 'hai', pl: 'Chce ci się pić?', h: 'avere' },
+        { type: 'c', c: 'Mario ___ l\'orologio?', a: 'ha', pl: 'Mario ma zegarek?', h: 'avere' },
+        { type: 'c', c: 'Io e Marta non ___ tempo per studiare oggi.', a: 'abbiamo', pl: 'Ja i Marta nie mamy dziś czasu na naukę.', h: 'avere' },
+        { type: 'c', c: 'Daniela e Sandra ___ una casa al mare.', a: 'hanno', pl: 'Daniela i Sandra mają dom nad morzem.', h: 'avere' },
+        { type: 'c', c: 'Io ___ bisogno di un caffè.', a: 'ho', pl: 'Potrzebuję kawy.', h: 'avere' },
+        { type: 'say', it: 'Ho fame, ho sete e ho sonno!', pl: 'Jestem głodny, spragniony i śpiący!' },
+      ]),
+    },
+    {
+      id: 'essere-avere', name: 'ESSERE czy AVERE? (mix)', emoji: '⚖️', lesson: 'załącznik nr 1 · Essere_Avere.pdf',
+      notes: `## Podpowiedź
+- **essere**: kim/jaki jestem, skąd, gdzie: sono italiano, è simpatica, siamo a Roma
+- **avere**: posiadanie, wiek, fame/sete/sonno/freddo, cechy ciała: ho 35 anni, hai gli occhi azzurri`,
+      cards: [
+        { type: 'c', c: 'Di dove ___ Mario e Sally?', a: 'sono', pl: 'Skąd są Mario i Sally?', h: 'essere / avere' },
+        { type: 'c', c: 'Tu ___ il libro di grammatica?', a: 'hai', pl: 'Masz podręcznik do gramatyki?', h: 'essere / avere' },
+        { type: 'c', c: 'Voi ___ svizzeri?', a: 'siete', pl: 'Jesteście Szwajcarami?', h: 'essere / avere' },
+        { type: 'c', c: 'No, noi ___ tedeschi.', a: 'siamo', pl: 'Nie, jesteśmy Niemcami.', h: 'essere / avere' },
+        { type: 'c', c: 'Tu e Marco ___ fame?', a: 'avete', pl: 'Ty i Marco jesteście głodni?', h: 'essere / avere' },
+        { type: 'c', c: 'Sandra ___ freddo e sonno.', a: 'ha', pl: 'Sandrze jest zimno i jest śpiąca.', h: 'essere / avere' },
+        { type: 'c', c: 'Quanti anni ___ tu?', a: 'hai', pl: 'Ile masz lat?', h: 'essere / avere' },
+        { type: 'c', c: 'Io ___ 35 anni.', a: 'ho', pl: 'Mam 35 lat.', h: 'essere / avere' },
+        { type: 'c', c: 'Io ___ italiana, di Venezia.', a: 'sono', pl: 'Jestem Włoszką, z Wenecji.', h: 'essere / avere' },
+        { type: 'c', c: 'La mia macchina ___ vecchia.', a: 'è', pl: 'Mój samochód jest stary.', h: 'essere / avere' },
+        { type: 'c', c: 'Anna e Lucia ___ molto simpatiche.', a: 'sono', pl: 'Anna i Lucia są bardzo sympatyczne.', h: 'essere / avere' },
+        { type: 'c', c: 'Io e mio marito ___ una casa a Roma.', a: 'abbiamo', pl: 'Ja i mój mąż mamy dom w Rzymie.', h: 'essere / avere' },
+        { type: 'c', c: 'Luisa e Sandro ___ italiani, di Siena.', a: 'sono', pl: 'Luisa i Sandro są Włochami, ze Sieny.', h: 'essere / avere' },
+        { type: 'c', c: 'Io e mia sorella ___ i capelli neri.', a: 'abbiamo', pl: 'Ja i moja siostra mamy czarne włosy.', h: 'essere / avere' },
+        { type: 'c', c: 'Tu ___ gli occhi azzurri.', a: 'hai', pl: 'Masz niebieskie oczy.', h: 'essere / avere' },
+        { type: 'c', c: 'Silvia non ___ la macchina.', a: 'ha', pl: 'Silvia nie ma samochodu.', h: 'essere / avere' },
+        { type: 'c', c: 'Voi ___ una macchina a Bologna?', a: 'avete', pl: 'Macie samochód w Bolonii?', h: 'essere / avere' },
+        { type: 'ch', q: 'Io ___ un gatto.', o: ['sono', 'ho', 'è'], a: 1 },
+        { type: 'ch', q: 'Tu ___ molto gentile.', o: ['hai', 'sei', 'sono'], a: 1 },
+        { type: 'ch', q: 'Marco e Lucia ___ in vacanza.', o: ['sono', 'hanno', 'sei'], a: 0 },
+        { type: 'ch', q: 'Noi ___ freddo!', o: ['siamo', 'abbiamo', 'avete'], a: 1 },
+        { type: 'ch', q: 'Voi ___ una bella macchina.', o: ['siete', 'avete', 'sono'], a: 1 },
+        { type: 'ch', q: 'Loro ___ stanchi dopo il lavoro.', o: ['sono', 'hanno', 'siete'], a: 0 },
+        { type: 'ch', q: 'Io ___ trent\'anni.', o: ['sono', 'ho', 'è'], a: 1 },
+        { type: 'ch', q: 'Tu ___ un fratello o una sorella?', o: ['sei', 'hai', 'sono'], a: 1 },
+        { type: 'ch', q: 'Noi ___ felici oggi!', o: ['siamo', 'abbiamo', 'ho'], a: 0 },
+        { type: 'ch', q: 'Maria ___ una casa a Roma.', o: ['ha', 'è', 'sei'], a: 0 },
+      ],
+    },
+    {
+      id: 'famiglia', name: 'Rodzina', emoji: '👨‍👩‍👧', lesson: 'Facile Facile · Unità 3',
+      notes: `## La famiglia
+- **i genitori** = rodzice (nie „generałowie”!) · **i parenti** = krewni
+- **i fratelli** = bracia albo rodzeństwo
+- z rodziną w l.poj. bez rodzajnika: **mia madre**, **mio fratello** (ale: la mia famiglia)`,
+      cards: W([
+        ['la famiglia', 'rodzina'], ['la madre / la mamma', 'matka / mama'], ['il padre / il papà', 'ojciec / tata'],
+        ['i genitori', 'rodzice'], ['il fratello', 'brat'], ['la sorella', 'siostra'], ['i fratelli', 'rodzeństwo / bracia'],
+        ['il figlio', 'syn'], ['la figlia', 'córka'], ['il marito', 'mąż'], ['la moglie', 'żona'],
+        ['il nonno', 'dziadek'], ['la nonna', 'babcia'], ['lo zio', 'wujek'], ['la zia', 'ciocia'],
+        ['il cugino / la cugina', 'kuzyn / kuzynka'], ['il bambino', 'dziecko (chłopiec)'],
+      ]).concat([
+        { type: 'say', it: 'Ho un fratello e una sorella.', pl: 'Mam brata i siostrę.' },
+        { type: 'say', it: 'Mia madre si chiama Anna.', pl: 'Moja mama ma na imię Anna.' },
+        { type: 'c', c: 'Il padre di mio padre è mio ___.', a: 'nonno', pl: 'Ojciec mojego ojca to mój dziadek.' },
+      ]),
+    },
+    {
+      id: 'orari', name: 'Godziny', emoji: '🕐', lesson: 'Orari e orologi (scheda + esercizi)',
+      notes: `## Che ore sono? / Che ora è?
+- **Sono le** + liczba: sono le tre (3:00), sono le quindici (15:00)
+- ale: **È l'una** (1:00) · **È mezzogiorno** (12:00) · **È mezzanotte** (0:00)
+- **e un quarto** (:15) · **e mezza** (:30) · **meno un quarto** (:45 = za kwadrans)
+- po 30 minucie: następna godzina + **meno**: 2:50 = **le tre meno dieci**
+- po 12 można liczyć od nowa: 14:00 = sono le quattordici / sono le due
+## A che ora? – O której?
+- **alle** nove e mezza · **all'**una · **a** mezzogiorno · **a** mezzanotte`,
+      cards: W([
+        ['che ore sono?', 'która jest godzina?'], ['che ora è?', 'która godzina?'], ['è mezzogiorno', 'jest południe'],
+        ['è mezzanotte', 'jest północ'], ['è l\'una', 'jest pierwsza'], ['sono le tre', 'jest trzecia'],
+        ['e mezza', 'i pół (:30)'], ['e un quarto', 'i kwadrans (:15)'], ['meno un quarto', 'za kwadrans (:45)'],
+        ['a che ora?', 'o której?'], ['alle nove', 'o dziewiątej'], ['all\'una', 'o pierwszej'],
+        ['l\'orologio', 'zegar / zegarek'], ['la lezione', 'lekcja'], ['il treno parte', 'pociąg odjeżdża'],
+        ['l\'autobus arriva', 'autobus przyjeżdża'],
+      ]).concat([
+        { type: 'ch', q: 'Która to godzina: 2:50?', o: ['sono le tre e dieci', 'sono le tre meno dieci', 'sono le dieci'], a: 1 },
+        { type: 'ch', q: 'Która to godzina: 11:45?', o: ['è mezzogiorno', 'è mezzogiorno meno un quarto', 'è mezzogiorno e un quarto'], a: 1 },
+        { type: 'ch', q: 'Pociąg odjeżdża o 23:45. A che ora parte il treno?', o: ['a mezzanotte meno un quarto', 'alle undici e un quarto', 'alle undici meno un quarto'], a: 0 },
+        { type: 'ch', q: 'Pociąg odjeżdża o 8:05. A che ora parte il treno?', o: ['le otto e cinque', 'alle otto e cinque', 'alle cinque e venti'], a: 1 },
+        { type: 'ch', q: 'Pociąg odjeżdża o 19:25. A che ora parte il treno?', o: ['alle nove e venticinque', 'alle diciannove e venticinque', 'alle sette'], a: 1 },
+        { type: 'c', c: 'A che ora inizia la lezione? ___ nove e mezza.', a: 'alle', pl: 'O której zaczyna się lekcja? O wpół do dziesiątej.' },
+        { type: 'c', c: '13:00 = È ___ una.', a: 'l\'', pl: 'Jest pierwsza.' },
+        { type: 'say', it: 'Mi scusi, che ore sono? Sono le tre e mezza.', pl: 'Przepraszam, która godzina? Wpół do czwartej.' },
+        { type: 'say', it: 'A che ora ci vediamo? Alle otto.', pl: 'O której się widzimy? O ósmej.' },
+      ]),
+    },
+    {
+      id: 'aggettivi', name: 'Przymiotniki', emoji: '🎨', lesson: 'Facile Facile · Unità 4–5',
+      notes: `## Przymiotniki -O (4 formy)
+- bell**o**, bell**a**, bell**i**, bell**e** — un ragazzo alt**o**, una ragazza alt**a**
+## Przymiotniki -E (2 formy)
+- facil**e** (l.poj. m/ż) → facil**i** (l.mn.) — un esercizio facile, due esercizi facili`,
+      cards: W([
+        ['bello', 'ładny'], ['brutto', 'brzydki'], ['grande', 'duży'], ['piccolo', 'mały'], ['nuovo', 'nowy'],
+        ['vecchio', 'stary'], ['giovane', 'młody'], ['alto', 'wysoki'], ['basso', 'niski'],
+        ['simpatico', 'sympatyczny'], ['antipatico', 'niesympatyczny'], ['facile', 'łatwy'],
+        ['difficile', 'trudny'], ['felice', 'szczęśliwy'], ['stanco', 'zmęczony'], ['gentile', 'miły, uprzejmy'],
+        ['buono', 'dobry'], ['caro', 'drogi'], ['economico', 'tani'],
+      ]).concat([
+        { type: 'c', c: 'Anna e Lucia sono molto ___.', a: 'simpatiche', pl: 'Anna i Lucia są bardzo sympatyczne.', h: 'simpatico' },
+        { type: 'c', c: 'Gli esercizi sono ___.', a: 'facili', pl: 'Ćwiczenia są łatwe.', h: 'facile' },
+        { type: 'c', c: 'La casa è ___.', a: 'piccola', pl: 'Dom jest mały.', h: 'piccolo' },
+        { type: 'c', c: 'I ragazzi sono ___.', a: 'alti', pl: 'Chłopcy są wysocy.', h: 'alto' },
+      ]),
+    },
+    {
+      id: 'vestiti', name: 'Ubrania', emoji: '👕', lesson: 'Facile Facile · Unità 4',
+      cards: W([
+        ['i vestiti', 'ubrania'], ['la maglietta', 'koszulka (t-shirt)'], ['la camicia', 'koszula'],
+        ['i pantaloni', 'spodnie'], ['la gonna', 'spódnica'], ['il vestito', 'sukienka / garnitur'],
+        ['la giacca', 'marynarka / kurtka'], ['il cappotto', 'płaszcz'], ['le scarpe', 'buty'],
+        ['il cappello', 'kapelusz / czapka'], ['la borsa', 'torebka / torba'], ['il maglione', 'sweter'],
+      ]).concat([
+        { type: 'say', it: 'Oggi ho una camicia bianca e i pantaloni neri.', pl: 'Dziś mam białą koszulę i czarne spodnie.' },
+      ]),
+    },
+    {
+      id: 'verbi', name: 'Czasowniki -ARE, -ERE, -IRE', emoji: '🏃', lesson: 'Facile Facile · Unità 4–5',
+      notes: `## Końcówki czasu teraźniejszego
+- **-ARE** (abitare): abit**o**, abit**i**, abit**a**, abit**iamo**, abit**ate**, abit**ano**
+- **-ERE** (prendere): prend**o**, prend**i**, prend**e**, prend**iamo**, prend**ete**, prend**ono**
+- **-IRE** (partire): part**o**, part**i**, part**e**, part**iamo**, part**ite**, part**ono**
+- akcent w formie loro na 3. sylabę od końca: **À**bitano, **PREN**dono, **PAR**tono`,
+      cards: W([
+        ['abitare', 'mieszkać'], ['parlare', 'mówić'], ['studiare', 'uczyć się, studiować'], ['lavorare', 'pracować'],
+        ['imparare', 'uczyć się (czegoś)'], ['mangiare', 'jeść'], ['ascoltare', 'słuchać'], ['guardare', 'oglądać'],
+        ['prendere', 'brać'], ['leggere', 'czytać'], ['scrivere', 'pisać'], ['vedere', 'widzieć'],
+        ['vivere', 'żyć, mieszkać'], ['perdere', 'gubić, spóźnić się na'], ['partire', 'wyjeżdżać, odjeżdżać'],
+        ['dormire', 'spać'], ['sentire', 'słyszeć, czuć'], ['aprire', 'otwierać'],
+        ['io abito', 'ja mieszkam'], ['noi abitiamo', 'my mieszkamy'], ['loro abitano', 'oni mieszkają'],
+        ['tu prendi', 'ty bierzesz'], ['voi prendete', 'wy bierzecie'], ['loro prendono', 'oni biorą'],
+        ['io parto', 'ja wyjeżdżam'], ['voi partite', 'wy wyjeżdżacie'], ['loro partono', 'oni wyjeżdżają'],
+      ]).concat([
+        { type: 'c', c: 'Io ___ in Polonia.', a: 'abito', pl: 'Mieszkam w Polsce.', h: 'abitare' },
+        { type: 'c', c: 'Noi ___ italiano.', a: 'studiamo', pl: 'Uczymy się włoskiego.', h: 'studiare' },
+        { type: 'c', c: 'Tu ___ inglese?', a: 'parli', pl: 'Mówisz po angielsku?', h: 'parlare' },
+        { type: 'c', c: 'Voi ___ molto.', a: 'lavorate', pl: 'Dużo pracujecie.', h: 'lavorare' },
+        { type: 'c', c: 'Loro ___ l\'autobus.', a: 'prendono', pl: 'Oni jadą autobusem.', h: 'prendere' },
+        { type: 'c', c: 'Marco ___ un libro.', a: 'legge', pl: 'Marco czyta książkę.', h: 'leggere' },
+        { type: 'c', c: 'Il treno ___ alle otto.', a: 'parte', pl: 'Pociąg odjeżdża o ósmej.', h: 'partire' },
+        { type: 'c', c: 'Io ___ otto ore.', a: 'dormo', pl: 'Śpię osiem godzin.', h: 'dormire' },
+        { type: 'c', c: 'Noi ___ la finestra.', a: 'apriamo', pl: 'Otwieramy okno.', h: 'aprire' },
+        { type: 'c', c: 'Loro ___ l\'autobus ogni mattina.', a: 'perdono', pl: 'Oni co rano spóźniają się na autobus.', h: 'perdere' },
+      ]),
+    },
+    {
+      id: 'domande', name: 'Słowa pytające', emoji: '❓', lesson: 'Facile Facile · Unità 5',
+      notes: `## Pytania
+- **Dove?** gdzie · **Di dove?** skąd · **Quando?** kiedy · **Chi?** kto
+- **Che cosa? / Cosa?** co · **Come?** jak · **Perché?** dlaczego / bo
+- **Quanto / quanta / quanti / quante?** ile — zgadza się z rzeczownikiem: quanti anni, quante sorelle`,
+      cards: W([
+        ['dove?', 'gdzie?'], ['di dove?', 'skąd?'], ['quando?', 'kiedy?'], ['chi?', 'kto?'],
+        ['che cosa?', 'co?'], ['come?', 'jak?'], ['perché?', 'dlaczego?'], ['quanto costa?', 'ile kosztuje?'],
+        ['quanti anni?', 'ile lat?'], ['quale?', 'który?'],
+      ]).concat([
+        { type: 'c', c: '___ abiti? – Abito a Varsavia.', a: 'dove', pl: 'Gdzie mieszkasz? – W Warszawie.' },
+        { type: 'c', c: '___ sorelle hai? – Ho due sorelle.', a: 'quante', pl: 'Ile masz sióstr? – Mam dwie siostry.' },
+        { type: 'c', c: '___ è? – È Marco, un mio amico.', a: 'chi', pl: 'Kto to? – To Marco, mój kolega.' },
+        { type: 'c', c: '___ parte il treno? – Domani.', a: 'quando', pl: 'Kiedy odjeżdża pociąg? – Jutro.' },
+        { type: 'c', c: '___ studi l\'italiano? – Perché amo l\'Italia.', a: 'perché', pl: 'Dlaczego uczysz się włoskiego? – Bo kocham Włochy.' },
+      ]),
+    },
+    {
+      id: 'conversazione', name: 'Mówienie: pytania o Ciebie', emoji: '🗣️', lesson: 'Rozmowa A0',
+      notes: `## Jak ćwiczyć
+Usłyszysz pytanie po włosku. Odpowiedz **na głos, pełnym zdaniem**. Aplikacja sprawdzi kluczowe słowa i pokaże wzorcową odpowiedź do powtórzenia.
+Wzory odpowiedzi możesz zmienić w Bibliotece (np. wiek czy miasto).`,
+      cards: [
+        { type: 'qa', q: 'Come ti chiami?', pl: 'Jak masz na imię?', m: 'Mi chiamo Damian.', keys: ['chiamo|sono'] },
+        { type: 'qa', q: 'Di dove sei?', pl: 'Skąd jesteś?', m: 'Sono polacco, sono di Varsavia.', keys: ['sono'] },
+        { type: 'qa', q: 'Quanti anni hai?', pl: 'Ile masz lat? (podaj swój wiek)', m: 'Ho trentacinque anni.', keys: ['ho', 'anni'] },
+        { type: 'qa', q: 'Dove abiti?', pl: 'Gdzie mieszkasz?', m: 'Abito in Polonia.', keys: ['abito|vivo'] },
+        { type: 'qa', q: 'Come stai?', pl: 'Jak się masz?', m: 'Sto bene, grazie. E tu?', keys: ['sto|bene|male|cosi'] },
+        { type: 'qa', q: 'Che lavoro fai?', pl: 'Czym się zajmujesz zawodowo?', m: 'Lavoro in un\'azienda farmaceutica.', keys: ['lavoro|sono'] },
+        { type: 'qa', q: 'Perché studi l\'italiano?', pl: 'Dlaczego uczysz się włoskiego?', m: 'Studio l\'italiano perché amo l\'Italia e per lavoro.', keys: ['studio|perche|per'] },
+        { type: 'qa', q: 'Hai fratelli o sorelle?', pl: 'Masz rodzeństwo?', m: 'Sì, ho un fratello. / No, non ho fratelli.', keys: ['ho'] },
+        { type: 'qa', q: 'Che giorno è oggi?', pl: 'Jaki dziś dzień?', m: 'Oggi è lunedì.', keys: ['lunedi|martedi|mercoledi|giovedi|venerdi|sabato|domenica'] },
+        { type: 'qa', q: 'Hai fame?', pl: 'Jesteś głodny?', m: 'Sì, ho fame. / No, non ho fame.', keys: ['fame'] },
+        { type: 'qa', q: 'Parli italiano?', pl: 'Mówisz po włosku?', m: 'Sì, parlo un po\' di italiano.', keys: ['parlo'] },
+        { type: 'qa', q: 'A che ora inizia la lezione?', pl: 'O której zaczyna się lekcja?', m: 'La lezione inizia alle sei.', keys: ['alle|all|a mezzogiorno'] },
+        { type: 'qa', q: 'Sei stanco oggi?', pl: 'Jesteś dziś zmęczony?', m: 'Sì, sono stanco. / No, non sono stanco.', keys: ['stanc'] },
+        { type: 'qa', q: 'Hai un computer a casa?', pl: 'Masz komputer w domu?', m: 'Sì, ho un computer a casa.', keys: ['ho'] },
+        { type: 'qa', q: 'Com\'è la tua famiglia?', pl: 'Jaka jest twoja rodzina?', m: 'La mia famiglia è piccola e simpatica.', keys: ['famiglia|e '] },
+        { type: 'qa', q: 'Che cosa hai voglia di mangiare?', pl: 'Na co masz ochotę do jedzenia?', m: 'Ho voglia di una pizza.', keys: ['voglia|ho'] },
+      ],
+    },
+  ],
+};
+</script>
+<script>/* Mój Włoski — aplikacja do codziennej nauki włoskiego (PWA, offline, bez serwera) */
+'use strict';
+
+// ---------- helpers ----------
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+const today = () => { const d = new Date(); return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5); };
+const dayKey = (n = today()) => new Date(n * 864e5).toISOString().slice(0, 10);
+const fmtDay = (n) => { const d = new Date(n * 864e5); return `${d.getUTCDate()}.${String(d.getUTCMonth() + 1).padStart(2, '0')}`; };
+const weekKey = (n = today()) => { const dow = (new Date(n * 864e5).getUTCDay() + 6) % 7; return dayKey(n - dow); };
+const uid = () => Math.random().toString(36).slice(2, 9);
+
+function toast(msg, ms = 2200) {
+  const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(() => t.remove(), ms);
+}
+
+// ---------- Italian numbers & time ----------
+const U = ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove', 'dieci', 'undici', 'dodici', 'tredici', 'quattordici', 'quindici', 'sedici', 'diciassette', 'diciotto', 'diciannove'];
+const T = ['', '', 'venti', 'trenta', 'quaranta', 'cinquanta', 'sessanta', 'settanta', 'ottanta', 'novanta'];
+function numRaw(n) {
+  if (n < 20) return U[n];
+  if (n < 100) { const d = Math.floor(n / 10), r = n % 10; let w = T[d]; if (r === 1 || r === 8) w = w.slice(0, -1); return r ? w + U[r] : w; }
+  if (n < 1000) { const h = Math.floor(n / 100), r = n % 100; let w = h === 1 ? 'cento' : U[h] + 'cento'; if (!r) return w; if (Math.floor(r / 10) === 8) w = w.slice(0, -1); return w + numRaw(r); }
+  if (n < 1e6) { const k = Math.floor(n / 1000), r = n % 1000; const w = k === 1 ? 'mille' : numRaw(k) + 'mila'; return r ? w + numRaw(r) : w; }
+  const m = Math.floor(n / 1e6), r = n % 1e6; const w = m === 1 ? 'un milione' : numRaw(m) + ' milioni'; return r ? w + ' ' + numRaw(r) : w;
+}
+function numIt(n) { n = Math.floor(Math.abs(n)); let w = numRaw(n); if (n > 20 && n % 10 === 3 && n % 100 !== 13) w = w.replace(/tre$/, 'tré'); return w; }
+
+function hourBases(h) {
+  h = ((h % 24) + 24) % 24; const out = [];
+  if (h === 0) out.push('è mezzanotte');
+  else if (h === 12) out.push('è mezzogiorno', 'sono le dodici');
+  else {
+    const x = h % 12; out.push(x === 1 ? "è l'una" : 'sono le ' + numIt(x));
+    if (h > 12) out.push(h === 13 ? 'sono le tredici' : 'sono le ' + numIt(h));
+  }
+  return out;
+}
+function timeForms(h, m) {
+  const forms = [];
+  if (m === 0) return hourBases(h);
+  const after = m === 15 ? ['e un quarto', 'e quindici'] : m === 30 ? ['e mezza', 'e mezzo', 'e trenta'] : m === 45 ? ['e quarantacinque', 'e tre quarti'] : ['e ' + numIt(m)];
+  hourBases(h).forEach((b) => after.forEach((a) => forms.push(b + ' ' + a)));
+  if (m > 30) {
+    const before = m === 45 ? ['meno un quarto', 'meno quindici'] : ['meno ' + numIt(60 - m)];
+    hourBases(h + 1).forEach((b) => before.forEach((a) => forms.push(b + ' ' + a)));
+  }
+  return forms;
+}
+const pad2 = (n) => String(n).padStart(2, '0');
+
+// ---------- text comparison ----------
+function norm(s) {
+  s = String(s || '').toLowerCase().replace(/[’`´‘]/g, "'");
+  s = s.replace(/(\d{1,2})[:.](\d{2})/g, (_, a, b) => `${a} e ${+b}`);
+  s = s.replace(/\d+/g, (d) => numIt(+d));
+  s = s.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  return s.replace(/'/g, ' ').replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim();
+}
+function lev(a, b) {
+  if (a === b) return 0; if (!a.length) return b.length; if (!b.length) return a.length;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    prev = cur;
+  }
+  return prev[b.length];
+}
+const sim = (a, b) => { a = norm(a); b = norm(b); return 1 - lev(a, b) / Math.max(a.length, b.length, 1); };
+const ART = /^(il|lo|la|l'|i|gli|le|un|una|uno|un')\s*/i;
+function variants(target) {
+  const out = [];
+  String(target).split('/').map((x) => x.trim()).filter(Boolean).forEach((t) => {
+    const clean = t.replace(/\s*[(\[].*?[)\]]\s*/g, ' ').replace(/[?!.…]+$/g, '').trim();
+    out.push({ t: clean, art: false });
+    if (ART.test(clean)) out.push({ t: clean.replace(ART, ''), art: true });
+  });
+  return out;
+}
+function evaluate(answer, targets, speech = false) {
+  let best = { score: 0, t: targets[0], art: false };
+  for (const tg of targets) for (const v of variants(tg)) {
+    const s = sim(answer, v.t);
+    if (s > best.score || (s === best.score && !v.art && best.art)) best = { score: s, t: v.art ? tg : v.t, art: v.art, full: tg };
+  }
+  const okTh = speech ? 0.8 : 0.999, midTh = speech ? 0.6 : 0.84;
+  best.level = best.score >= okTh ? 'ok' : best.score >= midTh ? 'mid' : 'bad';
+  if (best.level === 'ok' && best.art) best.note = 'Pamiętaj o rodzajniku: ' + best.full;
+  else if (best.level === 'ok' && !speech && /[àèéìòù]/i.test(best.t) && !/[àèéìòù]/i.test(answer)) best.note = 'Uwaga na akcent: ' + best.t;
+  return best;
+}
+function wordDiff(heard, target) {
+  const h = new Set(norm(heard).split(' '));
+  return String(target).split(/(\s+)/).map((w) => {
+    if (!w.trim()) return w; const n = norm(w); if (!n) return esc(w);
+    return `<span class="${h.has(n) ? 'w-ok' : 'w-bad'}">${esc(w)}</span>`;
+  }).join('');
+}
+
+// ---------- storage ----------
+const KEY = 'mojwloski_v1';
+let S;
+function defaults() {
+  return {
+    v: 1, created: today(), cards: {}, topics: {}, order: [], packs: {}, days: {}, journal: {},
+    skills: { time: { n: 0, ok: 0 }, num: { n: 0, ok: 0, lvl: 1 } },
+    settings: { name: 'Damian', goal: 20, newPerDay: 15, remind: '20:00', rate: 0.9, voice: '', speech: 'auto', genTime: true, genNum: true, weekGoal: 5 },
+    onboarded: false,
+  };
+}
+function load() {
+  try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) { S = null; }
+  if (!S || !S.cards) S = defaults();
+  const d = defaults(); S.settings = Object.assign(d.settings, S.settings); S.skills = Object.assign(d.skills, S.skills);
+  S.journal = S.journal || {}; S.days = S.days || {};
+  importPack(BUILTIN_PACK, { silent: true });
+}
+let saveTimer;
+function save(now) {
+  clearTimeout(saveTimer);
+  const doSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('Nie udało się zapisać danych (pamięć pełna?)'); } };
+  if (now) doSave(); else saveTimer = setTimeout(doSave, 400);
+}
+function dayStat(n = today()) {
+  const k = dayKey(n);
+  return S.days[k] || (S.days[k] = { sec: 0, n: 0, ok: 0, nw: 0, sp: 0, spn: 0 });
+}
+const peekDay = (n) => S.days[dayKey(n)] || { sec: 0, n: 0, ok: 0, nw: 0, sp: 0, spn: 0 };
+
+// ---------- packs ----------
+const VALID = { w: 1, c: 1, ch: 1, qa: 1, say: 1 };
+function importPack(pack, { silent } = {}) {
+  if (!pack || !Array.isArray(pack.topics)) throw new Error('Brak listy "topics" w pakiecie.');
+  const pid = String(pack.pack || 'pakiet-' + uid()).replace(/[^\w-]/g, '-');
+  const ver = pack.version || 1;
+  if (silent && S.packs[pid] >= ver) return 0;
+  let added = 0;
+  pack.topics.forEach((tp, ti) => {
+    const tid = String(tp.id || pid + '-' + ti).replace(/[^\w-]/g, '-');
+    const ex = S.topics[tid];
+    S.topics[tid] = Object.assign(ex || { id: tid, mastered: false, created: today(), src: pid }, {
+      name: tp.name || ex?.name || 'Temat', emoji: tp.emoji || ex?.emoji || '📘', notes: tp.notes ?? ex?.notes ?? '', lesson: tp.lesson ?? ex?.lesson ?? '',
+    });
+    if (!S.order.includes(tid)) S.order.push(tid);
+    (tp.cards || []).forEach((c, ci) => {
+      if (!VALID[c.type]) return;
+      const id = c.id ? `${tid}:${c.id}` : `${pid}:${tid}:${ci}`;
+      const old = S.cards[id];
+      const data = Object.assign({}, c); delete data.id;
+      S.cards[id] = Object.assign({ id, t: tid, done: false, s: { due: 0, iv: 0, ef: 2.5, r: 0, l: 0, seen: 0, ok: 0, last: null } }, old || {}, data, { id, t: tid });
+      if (!old) added++;
+    });
+  });
+  S.packs[pid] = ver; save();
+  return added;
+}
+
+// ---------- SRS (Anki-like) ----------
+function schedule(card, g) {
+  const s = card.s, t = today();
+  s.seen++; s.last = t; if (g > 0) s.ok++;
+  if (g === 0) { s.l++; s.ef = Math.max(1.3, s.ef - 0.2); s.iv = 0; s.due = t + 1; s.r = Math.max(0, s.r - 1); }
+  else {
+    if (s.iv === 0) s.iv = s.l > 0 && g >= 2 ? 2 : [0, 1, 1, 3][g];
+    else s.iv = Math.max(s.iv + 1, Math.round(s.iv * (g === 1 ? 1.2 : g === 2 ? s.ef : s.ef * 1.3)));
+    if (g === 1) s.ef = Math.max(1.3, s.ef - 0.15); if (g === 3) s.ef += 0.15;
+    s.r++; s.due = t + s.iv;
+  }
+}
+const isNew = (c) => c.s.seen === 0;
+const active = (c) => !c.done && S.topics[c.t] && !S.topics[c.t].mastered;
+const allCards = () => Object.values(S.cards);
+function counts() {
+  const t = today(), cs = allCards().filter(active);
+  const due = cs.filter((c) => !isNew(c) && c.s.due <= t).length;
+  const nw = cs.filter(isNew).length;
+  const left = Math.max(0, S.settings.newPerDay - dayStat().nw);
+  return { due, nw, newToday: Math.min(nw, left) };
+}
+function cardStatus(c) {
+  if (c.done || S.topics[c.t]?.mastered) return 'mastered';
+  if (isNew(c)) return 'new';
+  if (c.s.iv >= 21) return 'mature';
+  return 'learning';
+}
+
+// ---------- speech: TTS ----------
+let voices = [];
+function loadVoices() { try { voices = speechSynthesis.getVoices().filter((v) => /^it/i.test(v.lang)); } catch (e) { voices = []; } }
+if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function speak(text, slow) {
+  if (!('speechSynthesis' in window)) { toast('Ta przeglądarka nie czyta tekstu na głos'); return; }
+  try {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text).replace(/_{2,}/g, '…').replace(/\s*\/\s*/g, ', '));
+    u.lang = 'it-IT';
+    const v = voices.find((x) => x.name === S.settings.voice) || voices.find((x) => /enhanced|premium|alice|federica/i.test(x.name)) || voices[0];
+    if (v) u.voice = v;
+    u.rate = slow ? 0.6 : S.settings.rate;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+// ---------- speech: recognition ----------
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+let srBroken = false;
+const canListen = () => !!SR && S.settings.speech !== 'dictation' && !srBroken;
+let currentRec = null;
+function listen(onInterim) {
+  return new Promise((resolve, reject) => {
+    try {
+      const rec = new SR(); currentRec = rec;
+      rec.lang = 'it-IT'; rec.interimResults = true; rec.maxAlternatives = 5; rec.continuous = false;
+      let finals = [];
+      rec.onresult = (e) => {
+        const res = e.results[e.results.length - 1];
+        if (res.isFinal) { finals = [...res].map((a) => a.transcript); }
+        else onInterim && onInterim(res[0].transcript);
+      };
+      rec.onerror = (e) => { currentRec = null; if (/not-allowed|service-not-allowed|audio-capture/.test(e.error)) { srBroken = true; reject(new Error('blocked')); } else reject(new Error(e.error)); };
+      rec.onend = () => { currentRec = null; resolve(finals); };
+      rec.start();
+    } catch (e) { srBroken = true; reject(e); }
+  });
+}
+
+// ---------- IndexedDB for photos / PDFs ----------
+const idb = {
+  db: null,
+  open() {
+    if (this.db) return Promise.resolve(this.db);
+    return new Promise((res, rej) => {
+      try {
+        const r = indexedDB.open('mojwloski', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('files', { keyPath: 'id' });
+        r.onsuccess = () => { this.db = r.result; res(this.db); }; r.onerror = () => rej(r.error);
+      } catch (e) { rej(e); }
+    });
+  },
+  async tx(mode, fn) { const db = await this.open(); return new Promise((res, rej) => { const t = db.transaction('files', mode); const st = t.objectStore('files'); const out = fn(st); t.oncomplete = () => res(out && out.result !== undefined ? out.result : out); t.onerror = () => rej(t.error); }); },
+  put(o) { return this.tx('readwrite', (s) => s.put(o)); },
+  del(id) { return this.tx('readwrite', (s) => s.delete(id)); },
+  async byTopic(tid) { const all = await this.tx('readonly', (s) => s.getAll()); return (all || []).filter((f) => f.topic === tid).sort((a, b) => a.at - b.at); },
+};
+function shrinkImage(file) {
+  return new Promise((res) => {
+    const url = URL.createObjectURL(file); const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, 1600 / Math.max(img.width, img.height)); const c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob((b) => { URL.revokeObjectURL(url); res(b || file); }, 'image/jpeg', 0.78);
+    };
+    img.onerror = () => res(file); img.src = url;
+  });
+}
+async function addFiles(tid, files) {
+  let n = 0;
+  for (const f of files) {
+    const blob = f.type.startsWith('image/') ? await shrinkImage(f) : f;
+    try { await idb.put({ id: uid(), topic: tid, name: f.name, type: f.type || blob.type, blob, at: Date.now() }); n++; } catch (e) { toast('Nie udało się zapisać pliku'); }
+  }
+  return n;
+}
+
+// ---------- time tracking ----------
+let lastAct = Date.now(), inSession = false;
+['pointerdown', 'keydown', 'input'].forEach((e) => document.addEventListener(e, () => { lastAct = Date.now(); }, { passive: true }));
+setInterval(() => {
+  if (inSession && document.visibilityState === 'visible' && Date.now() - lastAct < 90000) {
+    dayStat().sec++; if (dayStat().sec % 10 === 0) save();
+    const el = $('#sessbar'); if (el) el.style.width = Math.min(100, dayStat().sec / (S.settings.goal * 60) * 100) + '%';
+    const lb = $('#sessmin'); if (lb) lb.textContent = Math.floor(dayStat().sec / 60) + '/' + S.settings.goal + ' min';
+  }
+}, 1000);
+function streak() {
+  let n = 0, d = today(); const goal = S.settings.goal * 60;
+  if (peekDay(d).sec < goal) d--;
+  while (peekDay(d).sec >= goal) { n++; d--; }
+  return n;
+}
+
+// ---------- router ----------
+let tab = 'home';
+const app = () => $('#app');
+function go(t) { tab = t; inSession = false; if (currentRec) try { currentRec.abort(); } catch (e) {} render(); window.scrollTo(0, 0); }
+function render() {
+  const views = { home: viewHome, library: viewLibrary, add: viewAdd, stats: viewStats, session: viewSession, topic: viewTopic, settings: viewSettings };
+  (views[tab] || viewHome)();
+  $('#tabbar').style.display = tab === 'session' ? 'none' : '';
+  $$('#tabbar button').forEach((b) => b.classList.toggle('on', b.dataset.t === tab || (tab === 'topic' && b.dataset.t === 'library') || (tab === 'settings' && b.dataset.t === 'home')));
+}
+
+// ---------- HOME ----------
+function ring(pct, label, sub) {
+  const r = 46, c = 2 * Math.PI * r, off = c * (1 - clamp(pct, 0, 1));
+  return `<div class="ring"><svg width="108" height="108"><circle cx="54" cy="54" r="${r}" fill="none" stroke="var(--line)" stroke-width="10"/>
+  <circle cx="54" cy="54" r="${r}" fill="none" stroke="${pct >= 1 ? 'var(--green)' : 'var(--accent)'}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}"/></svg>
+  <div class="lab"><b>${label}</b><span class="tiny muted">${sub}</span></div></div>`;
+}
+function greeting() { const h = new Date().getHours(); return h < 5 ? 'Buonanotte' : h < 13 ? 'Buongiorno' : h < 18 ? 'Buon pomeriggio' : 'Buonasera'; }
+function viewHome() {
+  const ds = dayStat(), mins = Math.floor(ds.sec / 60), goal = S.settings.goal, c = counts(), st = streak();
+  const acc = ds.n ? Math.round(ds.ok / ds.n * 100) : null;
+  const say = allCards().filter((x) => x.type === 'say' && x.it.includes(' '));
+  const ph = say.length ? say[today() % say.length] : null;
+  const lastTopic = S.order.slice().reverse().map((id) => S.topics[id]).find((t) => t && t.src !== 'start-a0') || null;
+  app().innerHTML = `
+  <div class="row between"><div><div class="muted small">${new Date().toLocaleDateString('pl-PL', { weekday: 'long', day: 'numeric', month: 'long' })}</div>
+  <h1>${greeting()}${S.settings.name ? ', ' + esc(S.settings.name) : ''}!</h1></div>
+  <button class="icon-btn" id="gear" aria-label="Ustawienia">⚙️</button></div>
+  ${!S.onboarded ? `<div class="card" style="border-color:var(--accent)"><h3>Pierwsze kroki 🇮🇹</h3>
+    <p class="small">1. <b>Safari → Udostępnij → „Do ekranu początkowego”</b> – aplikacja będzie działać offline jak zwykła apka.<br>
+    2. <b>Ustawienia iPhone → Ogólne → Klawiatura → Klawiatury → dodaj „Włoski”</b>, żeby dyktowanie rozumiało włoski.<br>
+    3. Ustaw wieczorne przypomnienie: ⚙️ → <b>Przypomnienie</b>.</p>
+    <button class="btn sm" id="onbOk">Gotowe, nie pokazuj</button></div>` : ''}
+  <div class="card hero">${ring(ds.sec / (goal * 60), mins, 'z ' + goal + ' min')}
+    <div class="grow"><div class="row wrap" style="gap:6px">
+      <span class="chip gold">🔥 ${st} ${st === 1 ? 'dzień' : 'dni'}</span>
+      ${acc !== null ? `<span class="chip green">✓ ${acc}%</span>` : ''}</div>
+      <p class="small" style="margin-top:8px"><b>${c.due}</b> do powtórki · <b>${c.newToday}</b> nowych na dziś</p>
+      <button class="btn primary block" id="start" style="margin-top:8px">${mins >= goal ? 'Ćwicz dalej' : mins > 0 ? 'Kontynuuj' : 'Zacznij ' + goal + ' minut'} ▶</button></div></div>
+  <h2>Szybki trening</h2>
+  <div class="quick">
+    <button data-q="speak"><span>🗣️</span><b>Mówienie</b><span>pytania i wymowa</span></button>
+    <button data-q="time"><span>🕐</span><b>Godziny</b><span>Che ore sono?</span></button>
+    <button data-q="num"><span>🔢</span><b>Liczby</b><span>słuchanie i pisanie</span></button>
+    <button data-q="weak"><span>🎯</span><b>Najtrudniejsze</b><span>Twoje słabe punkty</span></button>
+  </div>
+  ${ph ? `<div class="card phrase"><div class="tiny" style="opacity:.85;font-weight:700;letter-spacing:.05em">FRASE DEL GIORNO</div>
+    <div class="it">${esc(ph.it)}</div><div class="small" style="opacity:.9">${esc(ph.pl)}</div>
+    <div class="row" style="margin-top:10px"><button class="btn sm" id="phs" style="background:rgba(255,255,255,.2);color:#fff">🔊 Posłuchaj</button>
+    <button class="btn sm" id="phl" style="background:rgba(255,255,255,.2);color:#fff">🐢 Wolno</button></div></div>` : ''}
+  ${lastTopic ? `<div class="card"><div class="muted small">Ostatnia lekcja</div><div class="row between"><h3>${esc(lastTopic.emoji)} ${esc(lastTopic.name)}</h3>
+    <button class="btn sm green" data-topic="${lastTopic.id}">Ćwicz</button></div></div>` : ''}`;
+  $('#start').onclick = () => startSession({});
+  $('#gear').onclick = () => go('settings');
+  $('#onbOk') && ($('#onbOk').onclick = () => { S.onboarded = true; save(); render(); });
+  $$('[data-q]').forEach((b) => b.onclick = () => startSession({ mode: b.dataset.q }));
+  $('#phs') && ($('#phs').onclick = () => speak(ph.it)); $('#phl') && ($('#phl').onclick = () => speak(ph.it, true));
+  $$('[data-topic]').forEach((b) => b.onclick = () => startSession({ topic: b.dataset.topic }));
+}
+
+// ---------- SESSION ----------
+let Q = null; // session
+function buildQueue(opts) {
+  const t = today(), cs = allCards().filter(active);
+  let items = [];
+  const gen = (k, n) => Array.from({ length: n }, () => ({ gen: k }));
+  if (opts.mode === 'time') return shuffle(gen('time', 12).concat(cs.filter((c) => c.t === 'orari' && c.type !== 'w').slice(0, 6).map((c) => ({ card: c, practice: true }))));
+  if (opts.mode === 'num') return gen('num', 14);
+  if (opts.mode === 'speak') {
+    const sp = cs.filter((c) => c.type === 'qa' || c.type === 'say');
+    const words = cs.filter((c) => c.type === 'w' && !isNew(c));
+    return shuffle(shuffle(sp).slice(0, 14).concat(shuffle(words).slice(0, 6)).map((c) => ({ card: c, practice: !(isNew(c) || c.s.due <= t), forceMode: c.type === 'w' ? 'speak' : null })));
+  }
+  if (opts.mode === 'weak') {
+    const seen = cs.filter((c) => !isNew(c)).sort((a, b) => (b.s.l - a.s.l) || (a.s.ef - b.s.ef) || (a.s.ok / a.s.seen - b.s.ok / b.s.seen));
+    return shuffle(seen.slice(0, 20)).map((c) => ({ card: c, practice: c.s.due > t }));
+  }
+  const pool = opts.topic ? cs.filter((c) => c.t === opts.topic) : cs;
+  const due = shuffle(pool.filter((c) => !isNew(c) && c.s.due <= t));
+  let fresh = pool.filter(isNew);
+  const allowance = opts.extraNew || (opts.topic ? 25 : Math.max(0, S.settings.newPerDay - dayStat().nw));
+  // misz-masz: nowe karty rotacyjnie z tematów, zaczynając od najnowszej lekcji
+  const byTopic = {}; fresh.forEach((c) => (byTopic[c.t] = byTopic[c.t] || []).push(c));
+  const tOrder = S.order.slice().reverse().filter((id) => byTopic[id]);
+  fresh = []; let i = 0;
+  while (fresh.length < allowance && tOrder.some((id) => byTopic[id].length)) { const id = tOrder[i++ % tOrder.length]; if (byTopic[id].length) fresh.push(byTopic[id].shift()); }
+  let di = 0, ni = 0;
+  while (di < due.length || ni < fresh.length) {
+    if (di < due.length) items.push({ card: due[di++] }); if (di < due.length) items.push({ card: due[di++] });
+    if (ni < fresh.length) items.push({ card: fresh[ni++] });
+  }
+  if (opts.topic && items.length < 10) items = items.concat(shuffle(pool.filter((c) => !items.some((x) => x.card === c))).slice(0, 12 - items.length).map((c) => ({ card: c, practice: true })));
+  if (!opts.topic) {
+    const gens = [S.settings.genTime && 'time', S.settings.genNum && 'num'].filter(Boolean);
+    if (gens.length) { const out = []; items.forEach((it, k) => { out.push(it); if (k % 6 === 5) out.push({ gen: gens[(k / 6 | 0) % gens.length] }); }); if (items.length < 6) out.push({ gen: gens[0] }); items = out; }
+  }
+  return items;
+}
+function practiceQueue() {
+  const t = today(); const cs = allCards().filter((c) => active(c) && !isNew(c));
+  const w = cs.map((c) => ({ c, k: Math.random() * (1 + c.s.l * 2 + (3 - c.s.ef)) })).sort((a, b) => b.k - a.k).slice(0, 15).map((x) => ({ card: x.c, practice: x.c.s.due > t }));
+  const gens = [S.settings.genTime && 'time', S.settings.genNum && 'num'].filter(Boolean);
+  if (gens.length) w.splice(5, 0, { gen: gens[0] }), w.splice(11, 0, { gen: pick(gens) });
+  return w;
+}
+function startSession(opts) {
+  const queue = buildQueue(opts);
+  if (!queue.length) { if (!opts.mode && !opts.topic) { Q = { queue: practiceQueue(), i: 0, opts, n: 0, ok: 0, extra: true }; if (!Q.queue.length) return toast('Brak kart – dodaj materiał w zakładce Dodaj'); } else return toast('Brak kart w tym trybie'); }
+  else Q = { queue, i: 0, opts, n: 0, ok: 0 };
+  tab = 'session'; inSession = true; render();
+}
+function chooseMode(item) {
+  const c = item.card; if (item.forceMode) return item.forceMode;
+  const r = c.s.r;
+  if (c.type === 'w') {
+    if (item.relearn) return pick(['flip', 'type']);
+    if (isNew(c)) return 'flip';
+    if (r <= 1) return pick(['choice', 'listen', 'flip']);
+    return pick(['type', 'type', 'speak', 'speak', 'listen', 'choice']);
+  }
+  if (c.type === 'c') return isNew(c) || r < 1 ? 'choice' : pick(['type', 'type', 'speakc']);
+  if (c.type === 'ch') return 'choice';
+  if (c.type === 'qa') return 'qa';
+  if (c.type === 'say') return 'say';
+  return 'flip';
+}
+function sessionHeader(title) {
+  const ds = dayStat();
+  return `<div class="sess-top"><button class="icon-btn" id="quit" aria-label="Zakończ">✕</button>
+  <div class="bar"><i id="sessbar" style="width:${Math.min(100, ds.sec / (S.settings.goal * 60) * 100)}%"></i></div>
+  <span class="small muted" id="sessmin" style="min-width:64px;text-align:right">${Math.floor(ds.sec / 60)}/${S.settings.goal} min</span></div>
+  <div class="row between"><span class="kind" style="font-size:13px;font-weight:700;color:var(--muted)">${title}</span>
+  <span class="small muted">${Q.i + 1}/${Q.queue.length}${Q.extra ? ' · runda dodatkowa' : ''}</span></div>`;
+}
+function topicChip(c) { const t = S.topics[c.t]; return t ? `<span class="chip">${esc(t.emoji)} ${esc(t.name)}</span>` : ''; }
+function viewSession() {
+  if (!Q) return go('home');
+  if (Q.i >= Q.queue.length) return viewSummary();
+  const item = Q.queue[Q.i];
+  if (item.gen === 'time') return exTime(item);
+  if (item.gen === 'num') return exNum(item);
+  item.mode = item.mode || chooseMode(item);
+  const fn = { flip: exFlip, choice: exChoice, listen: exListen, type: exType, speak: exSpeak, speakc: exSpeakCloze, qa: exQA, say: exSay }[item.mode] || exFlip;
+  fn(item);
+}
+function wireCommon(item) {
+  $('#quit').onclick = () => { save(true); Q.i = Q.queue.length; Q.quit = true; render(); };
+  const m = $('#master'); if (m) m.onclick = () => { item.card.done = true; save(); toast('✓ Oznaczone jako opanowane – nie będzie się pojawiać'); next(null, item, true); };
+  $$('[data-say]').forEach((b) => b.onclick = () => speak(b.dataset.say, b.dataset.slow === '1'));
+}
+const tools = (c, sayText) => `<div class="tools">${sayText ? `<div class="row"><button class="btn sm ghost" data-say="${esc(sayText)}">🔊</button><button class="btn sm ghost" data-say="${esc(sayText)}" data-slow="1">🐢</button></div>` : '<span></span>'}
+  ${c ? `<button class="linkbtn" id="master">✓ Znam to – nie pokazuj</button>` : ''}</div>`;
+
+// grading: g = 0..3 ; spoken score optional
+function next(g, item, skip) {
+  const ds = dayStat();
+  if (!skip && item.card && g !== null) {
+    const c = item.card;
+    ds.n++; Q.n++; if (g > 0) { ds.ok++; Q.ok++; }
+    if (!item.relearn) {
+      if (isNew(c)) ds.nw++;
+      if (!item.practice) schedule(c, g);
+      else { c.s.seen++; if (g > 0) c.s.ok++; else { c.s.l++; c.s.due = today() + 1; c.s.iv = 0; } }
+    }
+    if (g === 0 && !item.relearn) { const pos = Math.min(Q.queue.length, Q.i + 4); Q.queue.splice(pos, 0, { card: c, relearn: true }); }
+  }
+  save(); Q.i++;
+  if (Q.i >= Q.queue.length && !Q.quit) {
+    // ciągłość: jeśli nie osiągnięto celu, dokładamy rundę dodatkową
+  }
+  render(); window.scrollTo(0, 0);
+}
+function recordSpeech(score) { const ds = dayStat(); ds.sp += Math.round(score * 100); ds.spn++; }
+
+// --- flip (fiszka) ---
+function exFlip(item) {
+  const c = item.card; const front = c.type === 'w' ? c.it : c.type === 'say' ? c.it : c.c || c.q;
+  const back = c.type === 'w' ? c.pl : c.pl || c.a || c.m;
+  app().innerHTML = `${sessionHeader(isNew(c) ? 'Nowe słowo' : 'Fiszka')}<div class="ex">
+  <div class="row" style="margin-top:8px">${topicChip(c)}${isNew(c) ? '<span class="chip accent">nowe</span>' : ''}</div>
+  <div class="prompt">${esc(front)}</div>
+  <div id="rev" class="reveal" style="display:none"><div class="sub">tłumaczenie</div><div style="font-size:21px;font-weight:600">${esc(back)}</div></div>
+  ${tools(c, front)}
+  <div class="footer-actions" id="act"><button class="btn primary block" id="show">Pokaż odpowiedź</button></div></div>`;
+  wireCommon(item); speak(front);
+  $('#show').onclick = () => {
+    $('#rev').style.display = '';
+    $('#act').innerHTML = `<div class="grades" style="padding-top:0">
+    <button class="g0" data-g="0">Nie wiem<small>jeszcze raz</small></button><button class="g1" data-g="1">Trudne<small>wkrótce</small></button>
+    <button class="g2" data-g="2">Dobrze<small>${isNew(c) ? '1 dzień' : '~' + Math.max(c.s.iv + 1, Math.round(c.s.iv * c.s.ef)) + ' dni'}</small></button><button class="g3" data-g="3">Łatwe<small>dłużej</small></button></div>`;
+    $$('[data-g]').forEach((b) => b.onclick = () => next(+b.dataset.g, item));
+  };
+}
+// --- choice ---
+function distractors(c, field, n) {
+  const pool = allCards().filter((x) => x !== c && x.type === c.type);
+  const same = shuffle(pool.filter((x) => x.t === c.t)).map((x) => x[field]);
+  const other = shuffle(pool.filter((x) => x.t !== c.t)).map((x) => x[field]);
+  const out = []; for (const v of same.concat(other)) { if (v && v !== c[field] && !out.includes(v)) out.push(v); if (out.length >= n) break; }
+  return out;
+}
+function exChoice(item) {
+  const c = item.card; let q, opts, ans, title, say = null;
+  if (c.type === 'ch') { q = c.q; opts = c.o.map((o, i) => ({ o, ok: i === c.a })); title = 'Wybierz odpowiedź'; }
+  else if (c.type === 'c') {
+    const ds = (c.o && c.o.length ? c.o.filter((x) => x !== c.a) : distractors(c, 'a', 3)).slice(0, 3);
+    q = c.c; opts = shuffle([{ o: c.a, ok: true }].concat(ds.map((o) => ({ o, ok: false })))); title = 'Uzupełnij lukę';
+  } else { q = c.it; say = c.it; opts = shuffle([{ o: c.pl, ok: true }].concat(distractors(c, 'pl', 3).map((o) => ({ o, ok: false })))); title = 'Co to znaczy?'; }
+  if (c.type === 'ch') opts = opts; // zachowaj kolejność z pliku
+  app().innerHTML = `${sessionHeader(title)}<div class="ex"><div class="row" style="margin-top:8px">${topicChip(c)}</div>
+  <div class="prompt ${q.length > 40 ? 'md' : ''}">${esc(q).replace(/_{2,}/g, '<b>_____</b>')}</div>
+  ${c.h ? `<div class="sub">podpowiedź: ${esc(c.h)}</div>` : ''}${c.type === 'c' && c.pl ? `<div class="sub">${esc(c.pl)}</div>` : ''}
+  <div class="opts">${opts.map((o, i) => `<button class="opt" data-i="${i}">${esc(o.o)}</button>`).join('')}</div>
+  ${tools(c, say)}<div class="footer-actions" id="act"></div></div>`;
+  wireCommon(item); if (say) speak(say);
+  $$('.opt').forEach((b) => b.onclick = () => {
+    const o = opts[+b.dataset.i]; $$('.opt').forEach((x, i) => { x.disabled = true; if (opts[i].ok) x.classList.add('ok'); }); if (!o.ok) b.classList.add('bad');
+    const full = c.type === 'c' ? c.c.replace(/_{2,}/, c.a) : c.type === 'w' ? c.it : null;
+    if (full) speak(full);
+    $('#act').innerHTML = `<button class="btn ${o.ok ? 'green' : 'primary'} block" id="nx">${o.ok ? 'Bene! Dalej →' : 'Dalej →'}</button>`;
+    $('#nx').onclick = () => next(o.ok ? 2 : 0, item);
+  });
+}
+// --- listen: hear Italian, pick Polish ---
+function exListen(item) {
+  const c = item.card;
+  const opts = shuffle([{ o: c.pl, ok: true }].concat(distractors(c, 'pl', 3).map((o) => ({ o, ok: false }))));
+  app().innerHTML = `${sessionHeader('Posłuchaj i wybierz')}<div class="ex"><div class="row" style="margin-top:8px">${topicChip(c)}</div>
+  <div class="center" style="margin:22px 0"><button class="mic" style="width:84px;height:84px;font-size:34px" data-say="${esc(c.it)}">🔊</button>
+  <div><button class="linkbtn" data-say="${esc(c.it)}" data-slow="1">🐢 wolniej</button></div></div>
+  <div class="opts">${opts.map((o, i) => `<button class="opt" data-i="${i}">${esc(o.o)}</button>`).join('')}</div>
+  <div id="itx"></div>${tools(c)}<div class="footer-actions" id="act"></div></div>`;
+  wireCommon(item); speak(c.it);
+  $$('.opt').forEach((b) => b.onclick = () => {
+    const o = opts[+b.dataset.i]; $$('.opt').forEach((x, i) => { x.disabled = true; if (opts[i].ok) x.classList.add('ok'); }); if (!o.ok) b.classList.add('bad');
+    $('#itx').innerHTML = `<div class="prompt md">${esc(c.it)}</div>`;
+    $('#act').innerHTML = `<button class="btn ${o.ok ? 'green' : 'primary'} block" id="nx">Dalej →</button>`; $('#nx').onclick = () => next(o.ok ? 2 : 0, item);
+  });
+}
+// --- answer box (typing + mic / dictation) ---
+function answerBox(placeholder) {
+  return `<div class="answer"><input type="text" id="ans" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" lang="it" placeholder="${esc(placeholder)}">
+  ${canListen() ? '<button class="mic" id="mic" aria-label="Mów">🎤</button>' : ''}</div>
+  <div class="hint" id="hint">${canListen() ? 'Wpisz albo stuknij 🎤 i powiedz po włosku.' : 'Wpisz albo użyj 🎤 dyktowania na klawiaturze (klawiatura włoska).'}</div>
+  <div class="footer-actions" id="act"><button class="btn primary block" id="chk">Sprawdź</button>
+  <button class="linkbtn" id="idk">Nie wiem – pokaż</button></div>`;
+}
+function wireAnswer(onCheck) {
+  const inp = $('#ans');
+  const run = (alts, isSp) => { if (inp.disabled) return; inp.disabled = true; onCheck(alts && alts.length ? alts : [inp.value], !!isSp); };
+  $('#chk').onclick = () => run(); inp.onkeydown = (e) => { if (e.key === 'Enter') run(); };
+  $('#idk').onclick = () => { inp.value = ''; run(['']); };
+  const mic = $('#mic');
+  if (mic) mic.onclick = async () => {
+    if (currentRec) { try { currentRec.stop(); } catch (e) {} return; }
+    try { speechSynthesis.cancel(); } catch (e) {}
+    mic.classList.add('live'); $('#hint').textContent = 'Słucham… mów po włosku';
+    try {
+      const alts = await listen((t) => { inp.value = t; });
+      mic.classList.remove('live');
+      if (alts.length) { inp.value = alts[0]; run(alts, true); } else $('#hint').textContent = 'Nic nie usłyszałem – spróbuj jeszcze raz.';
+    } catch (e) {
+      mic.classList.remove('live');
+      if (srBroken) { mic.remove(); $('#hint').innerHTML = 'Mikrofon w tej aplikacji jest niedostępny – użyj <b>🎤 dyktowania na klawiaturze</b> (stuknij pole tekstowe).'; inp.focus(); }
+      else $('#hint').textContent = 'Błąd rozpoznawania (' + e.message + '). Spróbuj ponownie.';
+    }
+  };
+  setTimeout(() => { if (!mic) try { inp.focus({ preventScroll: true }); } catch (e) {} }, 50);
+}
+function bestOf(alts, targets, speech) { let b = null; for (const a of alts) { const r = evaluate(a, targets, speech); r.heard = a; if (!b || r.score > b.score) b = r; } return b; }
+function feedback(r, target, speech) {
+  const pct = Math.round(r.score * 100);
+  const title = r.level === 'ok' ? pick(['Perfetto! 🎉', 'Bravo! 👏', 'Esatto!', 'Benissimo!']) : r.level === 'mid' ? 'Prawie! 👌' : 'Jeszcze nie 🙂';
+  return `<div class="fb ${r.level}"><b class="t">${title}</b>
+  ${speech ? `<div class="row between"><span class="small">Wymowa / zgodność</span><span class="score">${pct}%</span></div>` : ''}
+  ${r.heard !== undefined && r.heard !== '' ? `<div class="small">${speech ? 'Usłyszałem' : 'Twoja odpowiedź'}: <i>${esc(r.heard)}</i></div>` : ''}
+  <div style="margin-top:6px">Poprawnie: <b>${speech ? wordDiff(r.heard, target) : esc(target)}</b></div>
+  ${r.note ? `<div class="small" style="margin-top:4px">💡 ${esc(r.note)}</div>` : ''}</div>`;
+}
+function finishAnswer(item, r, target, speech, sayText) {
+  const g = r.level === 'ok' ? 2 : r.level === 'mid' ? 1 : 0;
+  if (speech) recordSpeech(r.score);
+  $('#act').innerHTML = feedback(r, target, speech) + `<button class="btn ${g ? 'green' : 'primary'} block" id="nx">Dalej →</button>
+  ${g === 0 && r.heard ? '<button class="linkbtn" id="ovr">Miałem rację (literówka / inna forma) – zalicz</button>' : ''}`;
+  $('#hint') && ($('#hint').style.display = 'none');
+  speak(sayText || target);
+  $('#nx').onclick = () => next(g, item);
+  $('#ovr') && ($('#ovr').onclick = () => next(1, item));
+}
+// --- type PL→IT ---
+function exType(item) {
+  const c = item.card; let prompt, targets, title, say;
+  if (c.type === 'c') { prompt = c.c; targets = [c.a]; title = 'Wpisz brakujące słowo'; say = c.c.replace(/_{2,}/, c.a); }
+  else { prompt = c.pl; targets = [c.it]; title = 'Jak to jest po włosku?'; say = c.it; }
+  app().innerHTML = `${sessionHeader(title)}<div class="ex"><div class="row" style="margin-top:8px">${topicChip(c)}</div>
+  <div class="prompt ${prompt.length > 40 ? 'md' : ''}">${esc(prompt).replace(/_{2,}/g, '<b>_____</b>')}</div>
+  ${c.h ? `<div class="sub">podpowiedź: ${esc(c.h)}</div>` : ''}${c.type === 'c' && c.pl ? `<div class="sub">${esc(c.pl)}</div>` : ''}
+  ${answerBox('po włosku…')}${tools(c)}</div>`;
+  wireCommon(item);
+  wireAnswer((alts, spoken) => { const r = bestOf(alts, targets, spoken); finishAnswer(item, r, r.full || targets[0], spoken, say); });
+}
+// --- speak word PL→IT out loud ---
+function exSpeak(item) {
+  const c = item.card;
+  app().innerHTML = `${sessionHeader('Powiedz po włosku')}<div class="ex"><div class="row" style="margin-top:8px">${topicChip(c)}<span class="chip blue">🗣️ mówienie</span></div>
+  <div class="prompt">${esc(c.pl)}</div><div class="sub">Powiedz na głos, potem sprawdź wymowę.</div>
+  ${answerBox('powiedz albo wpisz…')}${tools(c)}</div>`;
+  wireCommon(item);
+  wireAnswer((alts, spoken) => { const r = bestOf(alts, [c.it], true); finishAnswer(item, r, c.it, true); });
+}
+// --- speak full cloze sentence ---
+function exSpeakCloze(item) {
+  const c = item.card; const full = c.c.replace(/_{2,}/, c.a);
+  app().innerHTML = `${sessionHeader('Powiedz całe zdanie')}<div class="ex"><div class="row" style="margin-top:8px">${topicChip(c)}<span class="chip blue">🗣️ mówienie</span></div>
+  <div class="prompt md">${esc(c.c).replace(/_{2,}/g, '<b>_____</b>')}</div>${c.h ? `<div class="sub">podpowiedź: ${esc(c.h)}</div>` : ''}
+  <div class="sub">Przeczytaj na głos całe zdanie z uzupełnioną luką.</div>
+  ${answerBox('całe zdanie…')}${tools(c)}</div>`;
+  wireCommon(item);
+  wireAnswer((alts, spoken) => {
+    const r = bestOf(alts, [full], true);
+    const hasAns = alts.some((a) => (' ' + norm(a) + ' ').includes(' ' + norm(c.a) + ' '));
+    if (!hasAns && r.level === 'ok') r.level = 'mid';
+    finishAnswer(item, r, full, true);
+  });
+}
+// --- say: listen & repeat ---
+function exSay(item) {
+  const c = item.card;
+  app().innerHTML = `${sessionHeader('Posłuchaj i powtórz')}<div class="ex"><div class="row" style="margin-top:8px">${topicChip(c)}<span class="chip blue">👄 wymowa</span></div>
+  <div class="prompt ${c.it.length > 30 ? 'md' : ''}">${esc(c.it)}</div><div class="sub">${esc(c.pl || '')}</div>
+  ${tools(c, c.it)}${answerBox('powtórz na głos…')}</div>`;
+  wireCommon(item); speak(c.it);
+  wireAnswer((alts) => { const r = bestOf(alts, [c.it], true); finishAnswer(item, r, c.it, true); });
+}
+// --- QA: answer a question out loud ---
+function keysOk(ans, keys) { const n = ' ' + norm(ans) + ' '; return (keys || []).every((k) => k.split('|').some((alt) => n.includes(norm(alt)))); }
+function exQA(item) {
+  const c = item.card;
+  app().innerHTML = `${sessionHeader('Odpowiedz na głos')}<div class="ex"><div class="row" style="margin-top:8px">${topicChip(c)}<span class="chip blue">🗣️ rozmowa</span></div>
+  <div class="prompt">${esc(c.q)}</div>
+  <details class="sub"><summary>tłumaczenie</summary>${esc(c.pl || '')}</details>
+  ${tools(c, c.q)}${answerBox('odpowiedz pełnym zdaniem…')}</div>`;
+  wireCommon(item); speak(c.q);
+  wireAnswer((alts, spoken) => {
+    const okAlt = alts.find((a) => keysOk(a, c.keys)) ?? alts[0];
+    const ok = keysOk(okAlt, c.keys) && norm(okAlt).split(' ').length >= 2;
+    const models = String(c.m).split('/').map((x) => x.trim());
+    const r = bestOf([okAlt], models, true);
+    r.level = ok ? 'ok' : (okAlt && keysOk(okAlt, c.keys) ? 'mid' : 'bad');
+    if (spoken) recordSpeech(Math.max(r.score, ok ? 0.8 : r.score));
+    $('#act').innerHTML = `<div class="fb ${r.level}"><b class="t">${ok ? 'Bravo! Dobra odpowiedź 🎉' : r.level === 'mid' ? 'Dobrze, ale odpowiedz pełnym zdaniem' : 'Spróbuj tak:'}</b>
+      ${okAlt ? `<div class="small">Twoja odpowiedź: <i>${esc(okAlt)}</i></div>` : ''}
+      <div style="margin-top:8px">Wzór: <b>${esc(c.m)}</b> <button class="btn sm ghost" data-say="${esc(models[0])}">🔊</button></div>
+      <div class="small muted" style="margin-top:6px">Powtórz wzór na głos 2 razy — to buduje płynność.</div></div>
+      <button class="btn ${ok ? 'green' : 'primary'} block" id="nx">Dalej →</button>`;
+    $$('#act [data-say]').forEach((b) => b.onclick = () => speak(b.dataset.say));
+    $('#hint').style.display = 'none'; speak(models[0]);
+    $('#nx').onclick = () => next(ok ? 2 : r.level === 'mid' ? 1 : 0, item);
+  });
+}
+// --- generator: time ---
+function clockSVG(h, m) {
+  const a = (m / 60) * 360, b = ((h % 12) / 12) * 360 + (m / 60) * 30, R = 70;
+  const hand = (deg, len, w, col) => { const r = (deg - 90) * Math.PI / 180; return `<line x1="80" y1="80" x2="${80 + Math.cos(r) * len}" y2="${80 + Math.sin(r) * len}" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`; };
+  let ticks = ''; for (let i = 0; i < 12; i++) { const r = (i * 30 - 90) * Math.PI / 180; ticks += `<line x1="${80 + Math.cos(r) * 60}" y1="${80 + Math.sin(r) * 60}" x2="${80 + Math.cos(r) * 66}" y2="${80 + Math.sin(r) * 66}" stroke="var(--muted)" stroke-width="${i % 3 ? 2 : 4}"/>`; }
+  return `<svg class="clock" width="160" height="160" viewBox="0 0 160 160"><circle cx="80" cy="80" r="${R}" fill="var(--card)" stroke="var(--line)" stroke-width="5"/>${ticks}
+  ${hand(b, 38, 6, 'var(--ink)')}${hand(a, 56, 4, 'var(--accent)')}<circle cx="80" cy="80" r="5" fill="var(--ink)"/></svg>`;
+}
+function randTime() {
+  const h = Math.floor(Math.random() * 24); const ms = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
+  return { h, m: Math.random() < 0.85 ? pick(ms) : Math.floor(Math.random() * 60) };
+}
+function genDone(kind, ok, item) { const sk = S.skills[kind]; sk.n++; if (ok) sk.ok++; const ds = dayStat(); ds.n++; if (ok) ds.ok++; Q.n++; if (ok) Q.ok++;
+  if (kind === 'num') { sk.hist = (sk.hist || []).concat(ok ? 1 : 0).slice(-8); const okr = sk.hist.reduce((a, b) => a + b, 0); if (sk.hist.length >= 6 && okr >= 6) { sk.lvl = Math.min(4, (sk.lvl || 1) + 1); sk.hist = []; } else if (sk.hist.length >= 6 && okr <= 2) { sk.lvl = Math.max(1, (sk.lvl || 1) - 1); sk.hist = []; } }
+  save(); }
+function exTime(item) {
+  if (!item.t) { item.t = randTime(); item.v = Math.random() < 0.65 ? 'say' : 'pick'; }
+  const { h, m } = item.t, forms = timeForms(h, m), main = forms[0], dig = `${h}:${pad2(m)}`;
+  if (item.v === 'pick') {
+    const opts = [{ h, m }]; while (opts.length < 4) { const x = randTime(); if (!opts.some((o) => o.h % 12 === x.h % 12 && o.m === x.m)) opts.push(x); }
+    const sh = shuffle(opts);
+    app().innerHTML = `${sessionHeader('🕐 Godziny – posłuchaj')}<div class="ex"><div class="center" style="margin:18px 0">
+    <button class="mic" style="width:84px;height:84px;font-size:34px" data-say="${esc(main)}">🔊</button><div><button class="linkbtn" data-say="${esc(main)}" data-slow="1">🐢 wolniej</button></div></div>
+    <div class="sub center">Która to godzina?</div><div class="opts">${sh.map((o, i) => `<button class="opt center" data-i="${i}">${o.h}:${pad2(o.m)}${o.h < 12 && o.h > 0 ? ` <span class="muted small">/ ${o.h + 12}:${pad2(o.m)}</span>` : ''}</button>`).join('')}</div>
+    <div class="footer-actions" id="act"></div></div>`;
+    wireCommon(item); speak(main);
+    $$('.opt').forEach((b) => b.onclick = () => {
+      const o = sh[+b.dataset.i], ok = o.h % 12 === h % 12 && o.m === m;
+      $$('.opt').forEach((x, i) => { x.disabled = true; if (sh[i].h % 12 === h % 12 && sh[i].m === m) x.classList.add('ok'); }); if (!ok) b.classList.add('bad');
+      $('#act').innerHTML = `<div class="fb ${ok ? 'ok' : 'bad'}"><b class="t">${ok ? 'Esatto!' : 'To było:'}</b>${esc(main)} (${dig})</div><button class="btn block ${ok ? 'green' : 'primary'}" id="nx">Dalej →</button>`;
+      genDone('time', ok); $('#nx').onclick = () => { Q.i++; render(); };
+    });
+    return;
+  }
+  app().innerHTML = `${sessionHeader('🕐 Che ore sono?')}<div class="ex">${clockSVG(h, m)}
+  <div class="prompt center" style="margin-top:0">${dig}</div><div class="sub center">Powiedz albo napisz godzinę po włosku</div>
+  ${answerBox('sono le…')}</div>`;
+  wireCommon(item);
+  wireAnswer((alts, spoken) => {
+    const r = bestOf(alts, forms, true);
+    if (!spoken && r.level !== 'ok' && r.score >= 0.9) r.level = 'ok';
+    const ok = r.level !== 'bad';
+    if (spoken) recordSpeech(r.score);
+    $('#act').innerHTML = feedback(r, r.t || main, spoken) + `<div class="small muted" style="margin-top:6px">Też poprawnie: ${forms.filter((f) => f !== r.t).slice(0, 3).map(esc).join(' · ')}</div>
+    <button class="btn block ${ok ? 'green' : 'primary'}" id="nx" style="margin-top:10px">Dalej →</button>`;
+    $('#hint').style.display = 'none'; speak(r.t || main); genDone('time', ok); $('#nx').onclick = () => { Q.i++; render(); };
+  });
+}
+// --- generator: numbers ---
+function randNum() {
+  const lvl = S.skills.num.lvl || 1;
+  const r = Math.random();
+  if (lvl === 1) return Math.floor(Math.random() * 21);
+  if (lvl === 2) return r < 0.3 ? Math.floor(Math.random() * 21) : 21 + Math.floor(Math.random() * 80);
+  if (lvl === 3) return r < 0.5 ? 21 + Math.floor(Math.random() * 80) : 100 + Math.floor(Math.random() * 900);
+  return r < 0.4 ? 100 + Math.floor(Math.random() * 900) : r < 0.8 ? 1900 + Math.floor(Math.random() * 131) : 1000 + Math.floor(Math.random() * 9000);
+}
+function exNum(item) {
+  if (item.n === undefined) { item.n = randNum(); item.v = Math.random() < 0.5 ? 'listen' : 'write'; }
+  const n = item.n, word = numIt(n);
+  if (item.v === 'listen') {
+    app().innerHTML = `${sessionHeader('🔢 Posłuchaj liczby')}<div class="ex"><div class="center" style="margin:22px 0">
+    <button class="mic" style="width:84px;height:84px;font-size:34px" data-say="${n}">🔊</button><div><button class="linkbtn" data-say="${n}" data-slow="1">🐢 wolniej</button></div></div>
+    <div class="sub center">Wpisz cyframi, co słyszysz</div>
+    <div class="answer"><input type="text" id="ans" inputmode="numeric" placeholder="np. 47"></div>
+    <div class="footer-actions" id="act"><button class="btn primary block" id="chk">Sprawdź</button></div></div>`;
+    wireCommon(item); speak(String(n));
+    const go2 = () => { const v = parseInt($('#ans').value.replace(/\D/g, ''), 10); const ok = v === n; $('#ans').disabled = true;
+      $('#act').innerHTML = `<div class="fb ${ok ? 'ok' : 'bad'}"><b class="t">${ok ? 'Esatto!' : 'To było: ' + n}</b>${esc(word)}</div><button class="btn block ${ok ? 'green' : 'primary'}" id="nx">Dalej →</button>`;
+      genDone('num', ok); $('#nx').onclick = () => { Q.i++; render(); }; };
+    $('#chk').onclick = go2; $('#ans').onkeydown = (e) => { if (e.key === 'Enter') go2(); }; setTimeout(() => $('#ans').focus(), 50);
+    return;
+  }
+  app().innerHTML = `${sessionHeader('🔢 Liczby')}<div class="ex"><div class="prompt center" style="font-size:56px">${n.toLocaleString('pl-PL')}</div>
+  <div class="sub center">Powiedz albo napisz słownie po włosku</div>${answerBox('słownie…')}</div>`;
+  wireCommon(item);
+  wireAnswer((alts, spoken) => {
+    const r = bestOf(alts, [word], spoken); const ok = r.level !== 'bad';
+    if (spoken) recordSpeech(r.score);
+    finishAnswerGen(r, word, spoken, () => genDone('num', ok));
+  });
+}
+function finishAnswerGen(r, target, spoken, done) {
+  const ok = r.level !== 'bad';
+  $('#act').innerHTML = feedback(r, target, spoken) + `<button class="btn block ${ok ? 'green' : 'primary'}" id="nx">Dalej →</button>`;
+  $('#hint').style.display = 'none'; speak(target); done(); $('#nx').onclick = () => { Q.i++; render(); };
+}
+// --- summary ---
+function viewSummary() {
+  inSession = false; save(true);
+  const ds = dayStat(), mins = Math.floor(ds.sec / 60), goal = S.settings.goal, acc = Q.n ? Math.round(Q.ok / Q.n * 100) : 0;
+  const reached = mins >= goal; const c = counts();
+  app().innerHTML = `<div class="center" style="padding-top:20px"><div style="font-size:56px">${reached ? '🏆' : '💪'}</div>
+  <h1>${reached ? 'Cel na dziś osiągnięty!' : Q.quit ? 'Przerwa' : 'Seria ukończona!'}</h1>
+  <p class="muted">${reached ? 'Ottimo lavoro! Do zobaczenia jutro.' : `Dziś: ${mins} z ${goal} minut.`}</p></div>
+  <div class="stats3" style="margin-top:18px"><div class="stat"><b>${Q.n}</b><span>ćwiczeń</span></div><div class="stat"><b>${acc}%</b><span>poprawnie</span></div>
+  <div class="stat"><b>${ds.spn ? Math.round(ds.sp / ds.spn) + '%' : '–'}</b><span>wymowa dziś</span></div></div>
+  <div class="footer-actions" style="margin-top:22px">
+  ${!reached && !Q.quit ? `<button class="btn primary block" id="more">${c.due + c.newToday > 0 ? 'Następna seria' : 'Runda powtórkowa (misz-masz)'} ▶</button>` : ''}
+  ${reached ? '<button class="btn ghost block" id="more2">Ćwicz dalej (bonus)</button>' : ''}
+  ${!Q.quit && c.due + c.newToday === 0 && c.nw > 0 ? '<button class="btn ghost block" id="morenew">➕ 10 nowych kart</button>' : ''}
+  <button class="btn ${reached ? 'green' : 'ghost'} block" id="home">Wróć do startu</button></div>`;
+  $('#home').onclick = () => { Q = null; go('home'); };
+  const more = () => { const q = buildQueue({}); Q = { queue: q.length ? q : practiceQueue(), i: 0, opts: {}, n: 0, ok: 0, extra: !q.length }; tab = 'session'; inSession = true; render(); };
+  $('#more') && ($('#more').onclick = more); $('#more2') && ($('#more2').onclick = more);
+  $('#morenew') && ($('#morenew').onclick = () => { const q = buildQueue({ extraNew: 10 }); Q = { queue: q, i: 0, opts: {}, n: 0, ok: 0 }; tab = 'session'; inSession = true; render(); });
+}
+
+// ---------- LIBRARY ----------
+function topicStats(tid) {
+  const cs = allCards().filter((c) => c.t === tid); const st = { new: 0, learning: 0, mature: 0, mastered: 0, total: cs.length, seen: 0, ok: 0 };
+  cs.forEach((c) => { st[cardStatus(c)]++; st.seen += c.s.seen; st.ok += c.s.ok; }); return st;
+}
+function progBar(st) {
+  const t = st.total || 1; const seg = (v, col) => v ? `<i style="width:${v / t * 100}%;background:${col}"></i>` : '';
+  return `<div class="prog">${seg(st.mastered, 'var(--blue)')}${seg(st.mature, 'var(--green)')}${seg(st.learning, 'var(--gold)')}</div>`;
+}
+let libQuery = '';
+function viewLibrary() {
+  const topics = S.order.slice().reverse().map((id) => S.topics[id]).filter(Boolean);
+  app().innerHTML = `<h1>Biblioteka</h1><p class="muted small">Tematy z lekcji. Stuknij, żeby zobaczyć ściągę, karty i zdjęcia.</p>
+  <input type="text" id="q" placeholder="🔍 Szukaj słowa (po włosku lub polsku)" value="${esc(libQuery)}" style="margin-top:10px">
+  <div id="res"></div>
+  <div class="card" id="tl">${topics.map((t) => { const st = topicStats(t.id); return `<div class="topic" data-id="${t.id}"><div class="em">${esc(t.emoji)}</div>
+  <div class="grow"><div class="row between"><b>${esc(t.name)}</b>${t.mastered ? '<span class="chip blue">opanowany</span>' : `<span class="small muted">${st.total}</span>`}</div>
+  <div class="tiny muted">${esc(t.lesson || '')}</div>${progBar(st)}</div></div>`; }).join('')}</div>
+  <div class="row small muted wrap" style="gap:12px"><span><span style="color:var(--gold)">■</span> w nauce</span><span><span style="color:var(--green)">■</span> utrwalone</span><span><span style="color:var(--blue)">■</span> opanowane</span></div>`;
+  $$('.topic').forEach((el) => el.onclick = () => { curTopic = el.dataset.id; go('topic'); });
+  const doSearch = () => {
+    libQuery = $('#q').value; const q = norm(libQuery);
+    if (!q) { $('#res').innerHTML = ''; $('#tl').style.display = ''; return; }
+    const hits = allCards().filter((c) => norm([c.it, c.pl, c.c, c.a, c.q, c.m].filter(Boolean).join(' ')).includes(q)).slice(0, 40);
+    $('#tl').style.display = 'none';
+    $('#res').innerHTML = `<div class="card">${hits.length ? hits.map(cardRow).join('') : '<div class="empty">Brak wyników</div>'}</div>`;
+    wireCardRows();
+  };
+  $('#q').oninput = doSearch; if (libQuery) doSearch();
+}
+const typeLabel = { w: 'słowo', c: 'luka', ch: 'quiz', qa: 'rozmowa', say: 'wymowa' };
+function cardText(c) {
+  if (c.type === 'w') return [c.it, c.pl]; if (c.type === 'say') return [c.it, c.pl];
+  if (c.type === 'c') return [c.c.replace(/_{2,}/, '[' + c.a + ']'), c.pl]; if (c.type === 'ch') return [c.q, c.o[c.a]];
+  if (c.type === 'qa') return [c.q, 'wzór: ' + c.m]; return ['', ''];
+}
+function cardRow(c) {
+  const [a, b] = cardText(c), st = cardStatus(c);
+  const chip = { new: '<span class="chip">nowe</span>', learning: '<span class="chip gold">w nauce</span>', mature: '<span class="chip green">utrwalone</span>', mastered: '<span class="chip blue">opanowane</span>' }[st];
+  return `<div class="list-item" data-card="${esc(c.id)}"><div class="grow"><div><b>${esc(a)}</b></div><div class="small muted">${esc(b || '')} · ${typeLabel[c.type]}</div></div>${chip}</div>`;
+}
+function wireCardRows() { $$('[data-card]').forEach((el) => el.onclick = () => editCard(S.cards[el.dataset.card])); }
+function modal(html, onMount) {
+  const m = document.createElement('div'); m.className = 'modal'; m.innerHTML = `<div class="sheet">${html}</div>`;
+  m.onclick = (e) => { if (e.target === m) m.remove(); }; document.body.appendChild(m); onMount && onMount(m); return m;
+}
+function editCard(c) {
+  const fields = { w: [['it', 'Po włosku'], ['pl', 'Po polsku']], say: [['it', 'Zdanie po włosku'], ['pl', 'Tłumaczenie']],
+    c: [['c', 'Zdanie z luką ___'], ['a', 'Odpowiedź'], ['pl', 'Tłumaczenie'], ['h', 'Podpowiedź']], ch: [['q', 'Pytanie']],
+    qa: [['q', 'Pytanie po włosku'], ['pl', 'Tłumaczenie'], ['m', 'Wzorcowa odpowiedź (Twoja wersja)']] }[c.type];
+  const s = c.s;
+  const m = modal(`<div class="row between"><h3>Edytuj kartę</h3><button class="icon-btn" id="x">✕</button></div>
+  ${fields.map(([k, l]) => `<label class="lbl">${l}</label><input type="text" data-f="${k}" value="${esc(c[k] || '')}">`).join('')}
+  <div class="card small"><div class="kv"><span>Status</span><b>${cardStatus(c)}</b></div><div class="kv"><span>Następna powtórka</span><b>${isNew(c) ? '—' : s.due <= today() ? 'dziś' : 'za ' + (s.due - today()) + ' dni'}</b></div>
+  <div class="kv"><span>Poprawnie</span><b>${s.ok}/${s.seen}</b></div></div>
+  <div class="row between card"><div><b>Opanowane</b><div class="small muted">Nie pokazuj w ćwiczeniach</div></div><label class="toggle"><input type="checkbox" id="mst" ${c.done ? 'checked' : ''}><span></span></label></div>
+  <div class="footer-actions"><button class="btn primary block" id="sv">Zapisz</button><button class="btn ghost block" id="rs">Resetuj postęp karty</button><button class="linkbtn" id="del" style="color:var(--red)">Usuń kartę</button></div>`, (m) => {
+    $('#x', m).onclick = () => m.remove();
+    $('#sv', m).onclick = () => { $$('[data-f]', m).forEach((i) => { c[i.dataset.f] = i.value.trim(); }); c.done = $('#mst', m).checked; save(); m.remove(); render(); };
+    $('#rs', m).onclick = () => { c.s = { due: 0, iv: 0, ef: 2.5, r: 0, l: 0, seen: 0, ok: 0, last: null }; c.done = false; save(); m.remove(); render(); toast('Postęp karty zresetowany'); };
+    let armed = false; $('#del', m).onclick = (e) => { if (!armed) { armed = true; e.target.textContent = 'Na pewno? Stuknij ponownie'; return; } delete S.cards[c.id]; save(); m.remove(); render(); };
+  });
+}
+let curTopic = null;
+async function viewTopic() {
+  const t = S.topics[curTopic]; if (!t) return go('library');
+  const cs = allCards().filter((c) => c.t === t.id), st = topicStats(t.id);
+  app().innerHTML = `<button class="linkbtn" id="back">‹ Biblioteka</button>
+  <div class="row between"><h1>${esc(t.emoji)} ${esc(t.name)}</h1></div><div class="muted small">${esc(t.lesson || '')}</div>
+  ${progBar(st)}
+  <div class="row" style="margin-top:12px"><button class="btn primary grow" id="pr">Ćwicz ten temat ▶</button></div>
+  <div class="row between card"><div><b>Temat opanowany</b><div class="small muted">Wyłącz cały temat z codziennych powtórek</div></div><label class="toggle"><input type="checkbox" id="tm" ${t.mastered ? 'checked' : ''}><span></span></label></div>
+  ${t.notes ? `<div class="card notes"><div class="row between"><h3>📝 Ściąga</h3></div>${md(t.notes)}</div>` : ''}
+  <div class="card"><div class="row between"><h3>📷 Materiały z lekcji</h3><label class="btn sm">+ Dodaj<input type="file" id="fu" accept="image/*,application/pdf" multiple hidden></label></div>
+  <div class="thumbs" id="th" style="margin-top:10px"><div class="small muted">Ładowanie…</div></div></div>
+  <div class="card"><div class="row between"><h3>Karty (${cs.length})</h3><button class="btn sm" id="addc">+ Dodaj</button></div>${cs.map(cardRow).join('')}</div>
+  <div class="row" style="gap:8px"><button class="btn ghost grow sm" id="ren">Zmień nazwę</button><button class="btn ghost grow sm" id="dl" style="color:var(--red)">Usuń temat</button></div>`;
+  $('#back').onclick = () => go('library');
+  $('#pr').onclick = () => startSession({ topic: t.id });
+  $('#tm').onchange = (e) => { t.mastered = e.target.checked; save(); toast(t.mastered ? 'Temat nie będzie się pojawiał' : 'Temat wraca do powtórek'); };
+  $('#addc').onclick = () => { curAddTopic = t.id; go('add'); };
+  $('#ren').onclick = () => modal(`<h3>Nazwa tematu</h3><label class="lbl">Emoji</label><input type="text" id="em" value="${esc(t.emoji)}"><label class="lbl">Nazwa</label><input type="text" id="nm" value="${esc(t.name)}">
+    <label class="lbl">Ściąga (opcjonalnie)</label><textarea id="nt">${esc(t.notes || '')}</textarea><div class="footer-actions"><button class="btn primary block" id="ok">Zapisz</button></div>`, (m) => {
+    $('#ok', m).onclick = () => { t.emoji = $('#em', m).value || '📘'; t.name = $('#nm', m).value || t.name; t.notes = $('#nt', m).value; save(); m.remove(); render(); };
+  });
+  let armed = false; $('#dl').onclick = (e) => { if (!armed) { armed = true; e.target.textContent = 'Na pewno? Stuknij ponownie'; return; }
+    cs.forEach((c) => delete S.cards[c.id]); delete S.topics[t.id]; S.order = S.order.filter((x) => x !== t.id); save(); go('library'); };
+  wireCardRows();
+  $('#fu').onchange = async (e) => { const n = await addFiles(t.id, [...e.target.files]); toast(`Dodano ${n} plik(ów)`); renderThumbs(t.id); };
+  renderThumbs(t.id);
+}
+async function renderThumbs(tid) {
+  const el = $('#th'); if (!el) return;
+  let files = []; try { files = await idb.byTopic(tid); } catch (e) { el.innerHTML = '<div class="small muted">Pamięć plików niedostępna w tej przeglądarce.</div>'; return; }
+  if (!files.length) { el.innerHTML = '<div class="small muted" style="grid-column:1/-1">Dodaj zdjęcia notatek z tablicy albo PDF-y z lekcji — będą zawsze pod ręką, także offline.</div>'; return; }
+  el.innerHTML = files.map((f) => f.type.startsWith('image/') ? `<img data-f="${f.id}" src="${URL.createObjectURL(f.blob)}" alt="">` : `<div class="pdf" data-f="${f.id}">📄</div>`).join('');
+  $$('[data-f]', el).forEach((x) => x.onclick = () => {
+    const f = files.find((y) => y.id === x.dataset.f); const url = URL.createObjectURL(f.blob);
+    modal(`<div class="row between"><b class="small">${esc(f.name || '')}</b><button class="icon-btn" id="x">✕</button></div>
+    ${f.type.startsWith('image/') ? `<img src="${url}" style="margin-top:10px">` : `<p><a class="btn block" href="${url}" target="_blank" rel="noopener">Otwórz PDF</a></p>`}
+    <button class="linkbtn" id="rm" style="color:var(--red)">Usuń plik</button>`, (m) => {
+      $('#x', m).onclick = () => m.remove(); $('#rm', m).onclick = async () => { await idb.del(f.id); m.remove(); renderThumbs(tid); };
+    });
+  });
+}
+function md(s) {
+  const lines = String(s).split('\n'); let out = '', ul = false;
+  const inl = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  for (const l of lines) {
+    if (/^\s*-\s+/.test(l)) { if (!ul) { out += '<ul>'; ul = true; } out += `<li>${inl(l.replace(/^\s*-\s+/, ''))}</li>`; continue; }
+    if (ul) { out += '</ul>'; ul = false; }
+    if (/^##\s+/.test(l)) out += `<h2>${inl(l.replace(/^##\s+/, ''))}</h2>`; else if (l.trim()) out += `<p>${inl(l)}</p>`;
+  }
+  return out + (ul ? '</ul>' : '');
+}
+
+// ---------- ADD ----------
+let curAddTopic = null, addTab = 'quick';
+const CLAUDE_PROMPT = `Zamień załączony materiał z lekcji włoskiego (poziom A0) na pakiet do mojej aplikacji „Mój Włoski”.
+Zwróć WYŁĄCZNIE kod JSON (bez komentarzy), w tym formacie:
+{
+  "pack": "lekcja-RRRR-MM-DD",
+  "version": 1,
+  "topics": [{
+    "id": "krotki-identyfikator",
+    "name": "Nazwa tematu po polsku",
+    "emoji": "📘",
+    "lesson": "Lekcja z DD.MM",
+    "notes": "## Ściąga\\n- **reguła** – krótkie wyjaśnienie po polsku",
+    "cards": [
+      {"type":"w","it":"la parola","pl":"słowo"},
+      {"type":"c","c":"Io ___ italiano.","a":"sono","pl":"Jestem Włochem.","h":"essere"},
+      {"type":"ch","q":"Pytanie","o":["opcja A","opcja B","opcja C"],"a":0},
+      {"type":"qa","q":"Pytanie po włosku do odpowiedzi na głos?","pl":"tłumaczenie","m":"Wzorcowa odpowiedź.","keys":["słowo|alternatywa"]},
+      {"type":"say","it":"Zdanie do powtórzenia na głos.","pl":"tłumaczenie"}
+    ]
+  }]
+}
+Zasady: rzeczowniki z rodzajnikiem, wszystkie słówka i zwroty z materiału, ćwiczenia z luk z poprawnymi odpowiedziami, 5–10 pytań do mówienia (qa) związanych z tematem i 5 zdań do powtarzania (say). Tłumaczenia po polsku.`;
+function viewAdd() {
+  const topics = S.order.map((id) => S.topics[id]).filter(Boolean);
+  app().innerHTML = `<h1>Dodaj materiał</h1><p class="muted small">Po każdej lekcji dodaj nowe słówka, zdania i zdjęcia.</p>
+  <div class="seg" style="margin-top:12px"><button data-a="quick" class="${addTab === 'quick' ? 'on' : ''}">✍️ Wpisz</button><button data-a="claude" class="${addTab === 'claude' ? 'on' : ''}">📄 PDF / zdjęcie</button><button data-a="file" class="${addTab === 'file' ? 'on' : ''}">📦 Import</button></div>
+  <div id="pane"></div>`;
+  $$('[data-a]').forEach((b) => b.onclick = () => { addTab = b.dataset.a; render(); });
+  const pane = $('#pane');
+  if (addTab === 'quick') {
+    pane.innerHTML = `<div class="card"><label class="lbl" style="margin-top:0">Do tematu</label>
+    <select id="tsel"><option value="__new">➕ Nowa lekcja / temat…</option>${topics.slice().reverse().map((t) => `<option value="${t.id}" ${curAddTopic === t.id ? 'selected' : ''}>${esc(t.emoji + ' ' + t.name)}</option>`).join('')}</select>
+    <div id="newt"><label class="lbl">Nazwa nowej lekcji</label><input type="text" id="tname" placeholder="np. Lekcja ${fmtDay(today())} – w restauracji"></div>
+    <label class="lbl">Treść – jedna linia = jedna karta</label>
+    <textarea id="txt" placeholder="il caffè = kawa&#10;Io ___ italiano. = sono&#10;? Che cosa mangi? = Mangio la pizza.&#10;! Vorrei un caffè, per favore. = Poproszę kawę."></textarea>
+    <details class="small muted" style="margin-top:8px"><summary>Jak wpisywać?</summary>
+    <p><code>parola = słowo</code> → fiszka (zamiast „=” może być „-” albo tabulator)</p>
+    <p><code>Io ___ italiano. = sono</code> → luka (trzy podkreślniki)</p>
+    <p><code>? Pytanie po włosku = wzorcowa odpowiedź</code> → pytanie do mówienia</p>
+    <p><code>! Zdanie po włosku = tłumaczenie</code> → zdanie do powtarzania na głos</p></details>
+    <label class="lbl">📷 Zdjęcia / PDF z lekcji (opcjonalnie)</label><input type="file" id="ph" accept="image/*,application/pdf" multiple>
+    <div class="footer-actions"><button class="btn primary block" id="go">Dodaj</button></div><div id="prev" class="small muted"></div></div>`;
+    const sync = () => { $('#newt').style.display = $('#tsel').value === '__new' ? '' : 'none'; };
+    $('#tsel').onchange = sync; sync();
+    $('#txt').oninput = () => { const p = parseQuick($('#txt').value); $('#prev').textContent = p.length ? `Rozpoznano ${p.length} kart: ` + Object.entries(p.reduce((a, c) => (a[typeLabel[c.type]] = (a[typeLabel[c.type]] || 0) + 1, a), {})).map(([k, v]) => `${v} × ${k}`).join(', ') : ''; };
+    $('#go').onclick = async () => {
+      const cards = parseQuick($('#txt').value); const files = [...$('#ph').files];
+      if (!cards.length && !files.length) return toast('Wpisz coś albo dodaj zdjęcie');
+      let tid = $('#tsel').value;
+      if (tid === '__new') {
+        tid = 'lekcja-' + dayKey() + '-' + uid();
+        S.topics[tid] = { id: tid, name: $('#tname').value.trim() || 'Lekcja ' + fmtDay(today()), emoji: '📘', notes: '', lesson: 'Lekcja z ' + fmtDay(today()), mastered: false, created: today(), src: 'own' };
+        S.order.push(tid);
+      }
+      cards.forEach((c) => { const id = tid + ':' + uid(); S.cards[id] = Object.assign({ id, t: tid, done: false, s: { due: 0, iv: 0, ef: 2.5, r: 0, l: 0, seen: 0, ok: 0, last: null } }, c); });
+      const n = files.length ? await addFiles(tid, files) : 0;
+      save(true); toast(`Dodano ${cards.length} kart${n ? ' i ' + n + ' plik(ów)' : ''} ✓`); curTopic = tid; curAddTopic = null; go('topic');
+    };
+  } else if (addTab === 'claude') {
+    pane.innerHTML = `<div class="card"><h3>PDF albo zdjęcie → ćwiczenia</h3>
+    <p class="small">Aplikacja działa offline i nie ma w sobie AI, więc materiał zamienia na ćwiczenia Claude:</p>
+    <p class="small">1. Otwórz czat z Claude i dołącz PDF albo zdjęcie z lekcji.<br>2. Wklej poniższe polecenie (przycisk „Kopiuj”).<br>3. Skopiuj odpowiedź (JSON) i wklej ją w zakładce <b>📦 Import</b>.</p>
+    <pre class="code" id="pr">${esc(CLAUDE_PROMPT)}</pre>
+    <button class="btn primary block" id="cp" style="margin-top:10px">📋 Kopiuj polecenie</button>
+    <p class="small muted" style="margin-top:10px">Samo zdjęcie notatek możesz też po prostu zachować w temacie (zakładka ✍️ Wpisz → „Zdjęcia / PDF”).</p></div>`;
+    $('#cp').onclick = async () => { try { await navigator.clipboard.writeText(CLAUDE_PROMPT); toast('Skopiowano ✓'); } catch (e) { const r = document.createRange(); r.selectNodeContents($('#pr')); getSelection().removeAllRanges(); getSelection().addRange(r); toast('Zaznaczono – skopiuj ręcznie'); } };
+  } else {
+    pane.innerHTML = `<div class="card"><h3>Wklej pakiet od Claude</h3><p class="small muted">JSON z ćwiczeniami. Możesz też wybrać plik .json.</p>
+    <textarea id="js" placeholder='{"pack": "...", "topics": [...]}'></textarea>
+    <input type="file" id="jf" accept=".json,application/json,text/plain" style="margin-top:10px">
+    <div class="footer-actions"><button class="btn primary block" id="imp">Importuj</button></div></div>`;
+    $('#jf').onchange = async (e) => { const f = e.target.files[0]; if (f) $('#js').value = await f.text(); };
+    $('#imp').onclick = () => {
+      let txt = $('#js').value.trim(); const a = txt.indexOf('{'), b = txt.lastIndexOf('}'); if (a >= 0 && b > a) txt = txt.slice(a, b + 1);
+      try { const p = JSON.parse(txt); if (!p.version) p.version = Date.now(); if (!p.pack) p.pack = 'pakiet-' + uid(); const n = importPack(p); save(true); toast(`Zaimportowano ${n} nowych kart ✓`); go('library'); }
+      catch (e) { toast('Błąd w JSON: ' + e.message, 4000); }
+    };
+  }
+}
+function parseQuick(txt) {
+  const out = [];
+  txt.split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
+    let kind = 'w'; if (l.startsWith('?')) { kind = 'qa'; l = l.slice(1).trim(); } else if (l.startsWith('!')) { kind = 'say'; l = l.slice(1).trim(); }
+    let parts = l.split(/\s*=\s*|\t+|\s+[-–—]\s+/); if (parts.length < 2) { if (kind === 'say') parts = [l, '']; else return; }
+    const left = parts[0].trim(), right = parts.slice(1).join(' = ').trim();
+    if (kind === 'qa') { const fw = norm(right).split(' ').filter((w) => w.length > 2); out.push({ type: 'qa', q: left, pl: '', m: right, keys: fw.length ? [fw[0]] : [] }); }
+    else if (kind === 'say') out.push({ type: 'say', it: left, pl: right });
+    else if (/_{2,}/.test(left)) out.push({ type: 'c', c: left, a: right });
+    else out.push({ type: 'w', it: left, pl: right });
+  });
+  return out;
+}
+
+// ---------- STATS ----------
+function viewStats() {
+  const t = today(), goal = S.settings.goal;
+  const days = Array.from({ length: 14 }, (_, i) => t - 13 + i).map((n) => ({ n, d: peekDay(n) }));
+  const max = Math.max(goal, ...days.map((x) => x.d.sec / 60));
+  const wk = Array.from({ length: 7 }, (_, i) => t - ((new Date(t * 864e5).getUTCDay() + 6) % 7) + i).filter((n) => n <= t);
+  const wkGoal = wk.filter((n) => peekDay(n).sec >= goal * 60).length;
+  const totals = Object.values(S.days).reduce((a, d) => ({ sec: a.sec + d.sec, n: a.n + d.n, ok: a.ok + d.ok, sp: a.sp + d.sp, spn: a.spn + d.spn }), { sec: 0, n: 0, ok: 0, sp: 0, spn: 0 });
+  const st = { new: 0, learning: 0, mature: 0, mastered: 0 }; allCards().forEach((c) => st[cardStatus(c)]++);
+  const sp7 = days.slice(-7).reduce((a, x) => ({ s: a.s + x.d.sp, n: a.n + x.d.spn }), { s: 0, n: 0 });
+  const tomorrow = allCards().filter((c) => active(c) && !isNew(c) && c.s.due <= t + 1).length;
+  const tps = S.order.map((id) => S.topics[id]).filter((x) => x && !x.mastered).map((tp) => { const s = topicStats(tp.id); return { tp, s, acc: s.seen ? s.ok / s.seen : null }; });
+  const weak = tps.filter((x) => x.acc !== null && x.s.seen >= 4).sort((a, b) => a.acc - b.acc).slice(0, 3);
+  const wkk = weekKey(), J = S.journal[wkk] || {};
+  app().innerHTML = `<h1>Postępy</h1>
+  <div class="stats3" style="margin-top:12px"><div class="stat"><b>🔥 ${streak()}</b><span>dni z celem</span></div>
+  <div class="stat"><b>${wkGoal}/${S.settings.weekGoal}</b><span>cel tygodnia</span></div><div class="stat"><b>${Math.round(totals.sec / 3600 * 10) / 10} h</b><span>łącznie</span></div></div>
+  <div class="card"><div class="row between"><h3>Ostatnie 14 dni</h3><span class="small muted">minuty</span></div>
+  <div class="bars">${days.map((x) => { const m = x.d.sec / 60; return `<div class="b"><i class="${m >= goal ? 'goal' : ''}" style="height:${m / max * 100}%"></i><span>${new Date(x.n * 864e5).getUTCDate()}</span></div>`; }).join('')}</div>
+  <div class="tiny muted" style="margin-top:6px"><span style="color:var(--green)">■</span> cel ${goal} min osiągnięty</div></div>
+  <div class="card"><h3>Słownictwo i ćwiczenia</h3>
+  <div class="kv"><span>Opanowane (wyłączone)</span><b>${st.mastered}</b></div><div class="kv"><span>Utrwalone (21+ dni)</span><b>${st.mature}</b></div>
+  <div class="kv"><span>W nauce</span><b>${st.learning}</b></div><div class="kv"><span>Jeszcze nowe</span><b>${st.new}</b></div>
+  <div class="kv"><span>Skuteczność ogółem</span><b>${totals.n ? Math.round(totals.ok / totals.n * 100) + '%' : '–'}</b></div>
+  <div class="kv"><span>Wymowa (7 dni)</span><b>${sp7.n ? Math.round(sp7.s / sp7.n) + '%' : '–'}</b></div>
+  <div class="kv"><span>Godziny / liczby</span><b>${S.skills.time.n ? Math.round(S.skills.time.ok / S.skills.time.n * 100) + '%' : '–'} / ${S.skills.num.n ? Math.round(S.skills.num.ok / S.skills.num.n * 100) + '%' : '–'}</b></div>
+  <div class="kv"><span>Do powtórki jutro</span><b>${tomorrow}</b></div></div>
+  ${weak.length ? `<div class="card"><h3>🎯 Twoje słabsze tematy</h3>${weak.map((x) => `<div class="list-item"><span style="font-size:22px">${esc(x.tp.emoji)}</span><div class="grow"><b>${esc(x.tp.name)}</b><div class="small muted">${Math.round(x.acc * 100)}% poprawnych</div></div><button class="btn sm green" data-topic="${x.tp.id}">Ćwicz</button></div>`).join('')}</div>` : ''}
+  <div class="card"><h3>🧭 Refleksja tygodnia</h3><p class="small muted">Krótko, jak po sesji coachingowej. Zapisuje się automatycznie.</p>
+  <label class="lbl">Co mi poszło dobrze?</label><textarea data-j="good" style="min-height:60px">${esc(J.good || '')}</textarea>
+  <label class="lbl">Co było trudne?</label><textarea data-j="hard" style="min-height:60px">${esc(J.hard || '')}</textarea>
+  <label class="lbl">Mój jeden krok na przyszły tydzień</label><textarea data-j="next" style="min-height:60px">${esc(J.next || '')}</textarea>
+  ${Object.keys(S.journal).filter((k) => k !== wkk).length ? `<details class="small" style="margin-top:10px"><summary>Poprzednie tygodnie</summary>${Object.entries(S.journal).filter(([k]) => k !== wkk).sort().reverse().map(([k, v]) => `<div class="card"><b>Tydzień od ${k}</b><p>✅ ${esc(v.good || '–')}</p><p>⚠️ ${esc(v.hard || '–')}</p><p>➡️ ${esc(v.next || '–')}</p></div>`).join('')}</details>` : ''}</div>`;
+  $$('[data-topic]').forEach((b) => b.onclick = () => startSession({ topic: b.dataset.topic }));
+  $$('[data-j]').forEach((ta) => ta.oninput = () => { S.journal[wkk] = Object.assign(S.journal[wkk] || {}, { [ta.dataset.j]: ta.value }); save(); });
+}
+
+// ---------- SETTINGS ----------
+function icsText(time) {
+  const [h, m] = time.split(':').map(Number); const d = new Date(); const ds = `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}`;
+  const url = location.href.split('#')[0];
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//MojWloski//PL', 'CALSCALE:GREGORIAN', 'BEGIN:VEVENT', `UID:mojwloski-${Date.now()}@app`,
+    `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').slice(0, 15)}Z`, `DTSTART:${ds}T${pad2(h)}${pad2(m)}00`, 'DURATION:PT20M', 'RRULE:FREQ=DAILY',
+    'SUMMARY:🇮🇹 20 minut włoskiego', `DESCRIPTION:Andiamo! Otwórz Mój Włoski: ${url}`, `URL:${url}`,
+    'BEGIN:VALARM', 'TRIGGER:PT0M', 'ACTION:DISPLAY', 'DESCRIPTION:Czas na włoski! 🇮🇹', 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+}
+function viewSettings() {
+  const s = S.settings; loadVoices();
+  app().innerHTML = `<button class="linkbtn" id="back">‹ Wróć</button><h1>Ustawienia</h1>
+  <div class="card"><h3>🎯 Cele</h3>
+  <label class="lbl">Twoje imię</label><input type="text" id="nm" value="${esc(s.name)}">
+  <label class="lbl">Minut dziennie</label><input type="number" id="goal" min="5" max="90" value="${s.goal}">
+  <label class="lbl">Nowych kart dziennie</label><input type="number" id="npd" min="0" max="50" value="${s.newPerDay}">
+  <label class="lbl">Dni z celem w tygodniu</label><input type="number" id="wg" min="1" max="7" value="${s.weekGoal}"></div>
+  <div class="card"><h3>⏰ Przypomnienie wieczorne</h3>
+  <p class="small muted">Strona internetowa nie może sama wysyłać przypomnień na iPhonie, kiedy jest zamknięta. Najpewniejsze są dwie drogi:</p>
+  <label class="lbl">Godzina</label><input type="time" id="rt" value="${s.remind}">
+  <a class="btn primary block" id="ics" style="margin-top:12px;text-decoration:none">📅 Dodaj codzienne przypomnienie do Kalendarza</a>
+  <p class="tiny muted" style="margin-top:6px">Codzienne wydarzenie z alarmem i linkiem do aplikacji.</p>
+  <details class="small" style="margin-top:8px"><summary><b>Albo: automatyzacja w aplikacji Skróty (otwiera apkę)</b></summary>
+  <p>1. Otwórz <b>Skróty</b> → <b>Automatyzacja</b> → <b>+</b> → <b>Pora dnia</b>.<br>2. Ustaw ${esc(s.remind)}, <b>Codziennie</b>, „Uruchom natychmiast”.<br>3. Akcja: <b>Pokaż powiadomienie</b> („Czas na włoski 🇮🇹”) albo <b>Otwórz URL</b> z adresem tej aplikacji:</p>
+  <pre class="code">${esc(location.href.split('#')[0])}</pre></details></div>
+  <div class="card"><h3>🔊 Głos i mówienie</h3>
+  <label class="lbl">Głos lektora</label><select id="vc"><option value="">Automatycznie (włoski)</option>${voices.map((v) => `<option ${v.name === s.voice ? 'selected' : ''}>${esc(v.name)}</option>`).join('')}</select>
+  ${!voices.length ? '<p class="tiny muted">Brak włoskich głosów? iPhone: Ustawienia → Dostępność → Treść mówiona → Głosy → Włoski (pobierz np. „Alice – rozszerzony”).</p>' : ''}
+  <label class="lbl">Tempo mowy: <span id="rv">${s.rate}</span></label><input type="range" id="rate" min="0.5" max="1.2" step="0.05" value="${s.rate}" style="width:100%">
+  <button class="btn sm ghost" id="test" style="margin-top:8px">🔊 Test: „Ciao, come stai?”</button>
+  <label class="lbl">Rozpoznawanie mowy</label>
+  <div class="seg"><button data-sp="auto" class="${s.speech === 'auto' ? 'on' : ''}">🎤 w aplikacji</button><button data-sp="dictation" class="${s.speech === 'dictation' ? 'on' : ''}">⌨️ dyktowanie</button></div>
+  <p class="tiny muted" style="margin-top:6px">${SR ? 'Ta przeglądarka obsługuje rozpoznawanie mowy.' : 'Rozpoznawanie w aplikacji niedostępne – używaj 🎤 na klawiaturze (włoskiej).'} Jeśli mikrofon w aplikacji nie działa, wybierz „dyktowanie”.</p></div>
+  <div class="card"><h3>🧩 Ćwiczenia w sesji</h3>
+  <div class="row between list-item"><span>🕐 Godziny (generator)</span><label class="toggle"><input type="checkbox" id="gt" ${s.genTime ? 'checked' : ''}><span></span></label></div>
+  <div class="row between list-item"><span>🔢 Liczby (generator)</span><label class="toggle"><input type="checkbox" id="gn" ${s.genNum ? 'checked' : ''}><span></span></label></div></div>
+  <div class="card"><h3>💾 Kopia zapasowa</h3><p class="small muted">Dane są tylko na tym telefonie. Rób kopię co jakiś czas (zdjęcia nie wchodzą do kopii).</p>
+  <div class="row" style="gap:8px"><button class="btn grow sm" id="exp">⬇️ Pobierz kopię</button><button class="btn grow sm" id="cpy">📋 Kopiuj</button></div>
+  <label class="lbl">Przywróć z kopii</label><input type="file" id="rst" accept=".json,application/json,text/plain">
+  <button class="linkbtn" id="wipe" style="color:var(--red);margin-top:10px">Wyczyść wszystkie dane</button></div>
+  <p class="tiny muted center">Mój Włoski · wersja 1.0 · działa offline</p>`;
+  $('#back').onclick = () => go('home');
+  const num = (id, k, a, b) => $(id).onchange = (e) => { s[k] = clamp(parseInt(e.target.value, 10) || s[k], a, b); save(); };
+  $('#nm').onchange = (e) => { s.name = e.target.value.trim(); save(); };
+  num('#goal', 'goal', 5, 90); num('#npd', 'newPerDay', 0, 50); num('#wg', 'weekGoal', 1, 7);
+  const setIcs = () => { const a = $('#ics'); a.href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(icsText(s.remind)); a.setAttribute('download', 'wloski-przypomnienie.ics'); };
+  $('#rt').onchange = (e) => { s.remind = e.target.value || '20:00'; save(); setIcs(); render(); }; setIcs();
+  $('#vc').onchange = (e) => { s.voice = e.target.value; save(); };
+  $('#rate').oninput = (e) => { s.rate = +e.target.value; $('#rv').textContent = s.rate; save(); };
+  $('#test').onclick = () => speak('Ciao, come stai? Benissimo, grazie!');
+  $$('[data-sp]').forEach((b) => b.onclick = () => { s.speech = b.dataset.sp; srBroken = false; save(); render(); });
+  $('#gt').onchange = (e) => { s.genTime = e.target.checked; save(); }; $('#gn').onchange = (e) => { s.genNum = e.target.checked; save(); };
+  $('#exp').onclick = () => { const blob = new Blob([JSON.stringify(S)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `wloski-kopia-${dayKey()}.json`; document.body.appendChild(a); a.click(); a.remove(); };
+  $('#cpy').onclick = async () => { try { await navigator.clipboard.writeText(JSON.stringify(S)); toast('Skopiowano – wklej np. do Notatek'); } catch (e) { toast('Nie udało się skopiować'); } };
+  $('#rst').onchange = async (e) => { try { const d = JSON.parse(await e.target.files[0].text()); if (!d.cards) throw new Error('to nie jest kopia'); S = d; load2(); save(true); toast('Przywrócono ✓'); go('home'); } catch (err) { toast('Błąd: ' + err.message); } };
+  let armed = false; $('#wipe').onclick = (e) => { if (!armed) { armed = true; e.target.textContent = 'Na pewno? Stuknij ponownie – usunie cały postęp'; return; } localStorage.removeItem(KEY); S = null; load(); save(true); go('home'); };
+}
+function load2() { const d = defaults(); S.settings = Object.assign(d.settings, S.settings); S.skills = Object.assign(d.skills, S.skills); S.journal = S.journal || {}; S.days = S.days || {}; importPack(BUILTIN_PACK, { silent: true }); }
+
+// ---------- boot ----------
+function boot() {
+  load();
+  $$('#tabbar button').forEach((b) => b.onclick = () => go(b.dataset.t));
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save(true); });
+  if ('serviceWorker' in navigator && location.protocol !== 'file:') { navigator.serviceWorker.register('sw.js').catch(() => {}); }
+  try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) {}
+  render();
+}
+window.__test = { numIt, timeForms, evaluate, norm, schedule, parseQuick, get S() { return S; } };
+boot();
+</script>
+</body>
+</html>
